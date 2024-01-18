@@ -1,6 +1,8 @@
 package com.dev.sav.model;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,6 +25,9 @@ public class Client {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "motDePasse;")
+    private String motDePasse;
+
     @Column(name = "telephone")
     private String telephone;
 
@@ -32,7 +37,7 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Dossier> dossiers;
 
-    public Client(int noClient, String nom, String prenom, String adresse, String email, String telephone, List<Appel> appels, List<Dossier> dossiers) {
+    public Client(int noClient, String nom, String prenom, String adresse, String email, String telephone,String motDePasse, List<Appel> appels, List<Dossier> dossiers) {
         this.noClient = noClient;
         this.nom = nom;
         this.prenom = prenom;
@@ -41,6 +46,7 @@ public class Client {
         this.telephone = telephone;
         this.appels = appels;
         this.dossiers = dossiers;
+        this.motDePasse = motDePasse;
     }
 
     public Client() {}
@@ -107,5 +113,28 @@ public class Client {
 
     public void setDossiers(List<Dossier> dossiers) {
         this.dossiers = dossiers;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)  // Assuming Many-to-Many relationship with roles
+    @JoinTable(
+            name = "client_roles",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

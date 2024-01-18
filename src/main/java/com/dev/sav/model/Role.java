@@ -18,9 +18,13 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<Utilisateur> utilisateurs;
 
-    public Role(String nom, List<Utilisateur> utilisateurs) {
+    @ManyToMany(mappedBy = "roles")
+    private List<Client> clients;
+
+    public Role(String nom, List<Utilisateur> utilisateurs, List<Client> clients) {
         this.nom = nom;
         this.utilisateurs = utilisateurs;
+        this.clients = clients;
     }
 
     public Role() {}
@@ -47,5 +51,13 @@ public class Role {
 
     public void setUtilisateurs(List<Utilisateur> utilisateurs) {
         this.utilisateurs = utilisateurs;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
     }
 }

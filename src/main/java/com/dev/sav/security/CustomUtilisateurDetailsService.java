@@ -1,7 +1,9 @@
 package com.dev.sav.security;
 
+import com.dev.sav.model.Client;
 import com.dev.sav.model.Role;
 import com.dev.sav.model.Utilisateur;
+import com.dev.sav.repository.ClientRepository;
 import com.dev.sav.repository.UtilisateurRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUtilisateurDetailsService implements UserDetailsService {
 
-    private UtilisateurRepository utilisateurRepository;
+    private final UtilisateurRepository utilisateurRepository;
+    private final ClientRepository clientRepository;
 
-    public CustomUtilisateurDetailsService(UtilisateurRepository utilisateurRepository) {
+    public CustomUtilisateurDetailsService(UtilisateurRepository utilisateurRepository, ClientRepository clientRepository) {
         this.utilisateurRepository = utilisateurRepository;
+        this.clientRepository = clientRepository;
     }
 
     @Override
@@ -30,15 +34,24 @@ public class CustomUtilisateurDetailsService implements UserDetailsService {
             return new org.springframework.security.core.userdetails.User(utilisateur.getEmail(),
                     utilisateur.getMotDePasse(),
                     mapRolesToAuthorities(utilisateur.getRoles()));
-        }else{
-            throw new UsernameNotFoundException("Invalid username or password.");
         }
+
+        Client client = clientRepository.findByEmail(email);
+        if (client != null) {
+            Collection<Role> clientRoles = client.getRoles();
+
+
+            return new org.springframework.security.core.userdetails.User(client.getEmail(),
+                    client.getMotDePasse(),
+                    mapRolesToAuthorities(clientRoles));
+        }
+
+        throw new UsernameNotFoundException("Invalid username or password.");
     }
 
-    private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Collection <Role> roles) {
-        Collection < ? extends GrantedAuthority> mapRoles = roles.stream()
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getNom()))
                 .collect(Collectors.toList());
-        return mapRoles;
     }
 }

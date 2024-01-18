@@ -1,8 +1,11 @@
 package com.dev.sav.service.implementation;
 
+import com.dev.sav.dto.ClientDto;
 import com.dev.sav.dto.UtilisateurDto;
+import com.dev.sav.model.Client;
 import com.dev.sav.model.Role;
 import com.dev.sav.model.Utilisateur;
+import com.dev.sav.repository.ClientRepository;
 import com.dev.sav.repository.RoleRepository;
 import com.dev.sav.repository.UtilisateurRepository;
 import com.dev.sav.service.UtilisateurService;
@@ -16,9 +19,9 @@ import java.util.stream.Collectors;
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
 
-    private UtilisateurRepository utilisateurRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UtilisateurRepository utilisateurRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository,
                                   RoleRepository roleRepository,
@@ -36,10 +39,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateur.setEmail(utilisateurDto.getEmail());
         utilisateur.setMotDePasse(passwordEncoder.encode(utilisateurDto.getMotDePasse()));
 
-        Role role = roleRepository.findByNom("ROLE_ADMIN");
-        if (role == null) {
-            role = checkRoleExist();
-        }
+        Role role = roleRepository.getOrCreateRole("ROLE_ADMIN");
         utilisateur.setRoles(Arrays.asList(role));
         utilisateurRepository.save(utilisateur);
     }
@@ -48,6 +48,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public Utilisateur findUtilisateurByEmail(String email) {
         return utilisateurRepository.findByEmail(email);
     }
+
 
     @Override
     public List<UtilisateurDto> findAllUtilisateurs() {
@@ -72,9 +73,4 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurDto;
     }
 
-    private Role checkRoleExist() {
-        Role role = new Role();
-        role.setNom("ROLE_ADMIN");
-        return roleRepository.save(role);
-    }
 }
