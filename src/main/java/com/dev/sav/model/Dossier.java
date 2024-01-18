@@ -39,6 +39,14 @@ public class Dossier {
     @OneToMany(mappedBy = "dossier", cascade = CascadeType.ALL)
     private List<MotifSuivi> motifsSuivi;
 
+    @Column(name = "article_référence")
+    private String articleReference;
+
+    @ManyToOne
+    @JoinColumn(name = "article_référence", insertable = false, updatable = false)
+    private Article article;
+
+
     public Dossier(String nom, int releveDe, int technicienIdTechnicien, int appelNumeroChrono, Date dateCreation, String description, Client client, Technicien technicien, Appel appel, List<MotifSuivi> motifsSuivi) {
         this.nom = nom;
         this.releveDe = releveDe;
@@ -132,5 +140,21 @@ public class Dossier {
 
     public void setMotifsSuivi(List<MotifSuivi> motifsSuivi) {
         this.motifsSuivi = motifsSuivi;
+    }
+
+    public String getArticleReference() {
+        return articleReference;
+    }
+
+    public void setArticleReference(String articleReference) {
+        this.articleReference = articleReference;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }

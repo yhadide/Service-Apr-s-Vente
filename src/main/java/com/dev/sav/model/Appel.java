@@ -37,6 +37,12 @@ public class Appel {
     @ManyToOne
     @JoinColumn(name = "dossier_nom")
     private Dossier dossier;
+    @Column(name = "article_référence")
+    private String articleReference;
+    @ManyToOne
+    @JoinColumn(name = "article_référence", insertable = false, updatable = false)
+    private Article article;
+
 
     public Appel(int numeroChrono, Date date, Time heure, String motif, String suiteDonnee, String statut, String description, Client client, Dossier dossier) {
         this.numeroChrono = numeroChrono;
@@ -122,5 +128,21 @@ public class Appel {
 
     public void setDossier(Dossier dossier) {
         this.dossier = dossier;
+    }
+
+    public String getArticleReference() {
+        return articleReference;
+    }
+
+    public void setArticleReference(String articleReference) {
+        this.articleReference = articleReference;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }
