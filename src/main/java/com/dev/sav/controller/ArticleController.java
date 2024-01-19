@@ -3,11 +3,13 @@ package com.dev.sav.controller;
 import com.dev.sav.model.Article;
 import com.dev.sav.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/articles")
 public class ArticleController {
 
@@ -19,27 +21,55 @@ public class ArticleController {
     }
 
     @GetMapping
-    public List<Article> getAllArticles() {
-        return articleService.getAllArticles();
+    public String getAllArticles(Model model) {
+        List<Article> articles = articleService.getAllArticles();
+        model.addAttribute("articles", articles);
+        return "articles/article";
     }
 
     @GetMapping("/{reference}")
-    public Article getArticleByReference(@PathVariable String reference) {
-        return articleService.getArticleByReference(reference);
+    public String getArticleByReference(@PathVariable String reference, Model model) {
+        Article article = articleService.getArticleByReference(reference);
+        if (article != null) {
+            model.addAttribute("article", article);
+            return "articles/article";
+        } else {
+            return "articles/error";
+        }
     }
 
-    @PostMapping
-    public void saveArticle(@RequestBody Article article) {
+    @GetMapping("/add")
+    public String showArticleForm(Model model) {
+        model.addAttribute("article", new Article());
+        return "articles/article";
+    }
+
+    @PostMapping("/add")
+    public String saveArticle(@ModelAttribute Article article) {
         articleService.saveArticle(article);
+        return "redirect:articles/article";
     }
 
-    @PutMapping("/{reference}")
-    public void updateArticle(@PathVariable String reference, @RequestBody Article updatedArticle) {
+    @GetMapping("/edit/{reference}")
+    public String showEditArticleForm(@PathVariable String reference, Model model) {
+        Article article = articleService.getArticleByReference(reference);
+        if (article != null) {
+            model.addAttribute("article", article);
+            return "articles/article";
+        } else {
+            return "articles/error";
+        }
+    }
+
+    @PostMapping("/edit/{reference}")
+    public String updateArticle(@PathVariable String reference, @ModelAttribute Article updatedArticle) {
         articleService.updateArticle(reference, updatedArticle);
+        return "redirect:articles/article";
     }
 
     @DeleteMapping("/{reference}")
-    public void deleteArticle(@PathVariable String reference) {
+    public String deleteArticle(@PathVariable String reference) {
         articleService.deleteArticle(reference);
+        return "redirect:articles/article";
     }
 }
