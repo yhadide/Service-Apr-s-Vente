@@ -1,11 +1,8 @@
 package com.dev.sav.service.implementation;
 
-import com.dev.sav.dto.ClientDto;
 import com.dev.sav.dto.UtilisateurDto;
-import com.dev.sav.model.Client;
 import com.dev.sav.model.Role;
 import com.dev.sav.model.Utilisateur;
-import com.dev.sav.repository.ClientRepository;
 import com.dev.sav.repository.RoleRepository;
 import com.dev.sav.repository.UtilisateurRepository;
 import com.dev.sav.service.UtilisateurService;

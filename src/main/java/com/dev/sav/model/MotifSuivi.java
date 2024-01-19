@@ -2,7 +2,6 @@ package com.dev.sav.model;
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.List;
 @Entity
 @Table(name = "MOTIF_SUIVI")
 public class MotifSuivi {

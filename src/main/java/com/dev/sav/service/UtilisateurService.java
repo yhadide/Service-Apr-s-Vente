@@ -1,11 +1,9 @@
 package com.dev.sav.service;
 
-import com.dev.sav.dto.ClientDto;
-import com.dev.sav.dto.UtilisateurDto;
-import com.dev.sav.model.Client;
-import com.dev.sav.model.Utilisateur;
-
 import java.util.List;
+
+import com.dev.sav.dto.UtilisateurDto;
+import com.dev.sav.model.Utilisateur;
 
 public interface UtilisateurService {
     void saveUtilisateur(UtilisateurDto utilisateurDto);

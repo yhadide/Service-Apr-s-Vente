@@ -3,7 +3,6 @@ import jakarta.persistence.*;
 
 import java.sql.Time;
 import java.util.Date;
-import java.util.List;
 @Entity
 @Table(name = "APPEL")
 public class Appel {
