@@ -47,7 +47,7 @@ public class ArticleController {
     @PostMapping("/add")
     public String saveArticle(@ModelAttribute Article article) {
         articleService.saveArticle(article);
-        return "redirect:articles/article";
+        return "redirect:/articles";
     }
 
     @GetMapping("/edit/{reference}")
@@ -64,12 +64,12 @@ public class ArticleController {
     @PostMapping("/edit/{reference}")
     public String updateArticle(@PathVariable String reference, @ModelAttribute Article updatedArticle) {
         articleService.updateArticle(reference, updatedArticle);
-        return "redirect:articles/article";
+        return "redirect:/articles";
     }
 
-    @DeleteMapping("/{reference}")
+    @PostMapping("/{reference}")
     public String deleteArticle(@PathVariable String reference) {
         articleService.deleteArticle(reference);
-        return "redirect:articles/article";
+        return "redirect:/articles";
     }
 }
