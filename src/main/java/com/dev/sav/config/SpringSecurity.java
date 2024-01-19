@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,10 +28,10 @@ public class SpringSecurity {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/clients").hasRole("CLIENT")  // Restrict access to client-specific pages to CLIENT role
+                                .requestMatchers("/client").hasRole("CLIENT")  // Restrict access to client-specific pages to CLIENT role
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/utilisateurs").hasRole("ADMIN")
                                 .requestMatchers("/client/registerclient").permitAll()  // Allow access to client registration form
@@ -49,7 +50,7 @@ public class SpringSecurity {
                                         response.sendRedirect("/utilisateurs");
                                     } else if (authentication.getAuthorities().stream()
                                             .anyMatch(authority -> authority.getAuthority().equals("ROLE_CLIENT"))) {
-                                        response.sendRedirect("/clients");
+                                        response.sendRedirect("/client");
                                     } else {
                                         throw new IllegalStateException("Unexpected role");
                                     }

@@ -34,10 +34,8 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Appel> appels;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<Dossier> dossiers;
 
-    public Client(int noClient, String nom, String prenom, String adresse, String email, String telephone,String motDePasse, List<Appel> appels, List<Dossier> dossiers) {
+    public Client(int noClient, String nom, String prenom, String adresse, String email, String telephone,String motDePasse, List<Appel> appels) {
         this.noClient = noClient;
         this.nom = nom;
         this.prenom = prenom;
@@ -45,7 +43,6 @@ public class Client {
         this.email = email;
         this.telephone = telephone;
         this.appels = appels;
-        this.dossiers = dossiers;
         this.motDePasse = motDePasse;
     }
 
@@ -107,13 +104,6 @@ public class Client {
         this.appels = appels;
     }
 
-    public List<Dossier> getDossiers() {
-        return dossiers;
-    }
-
-    public void setDossiers(List<Dossier> dossiers) {
-        this.dossiers = dossiers;
-    }
 
     public String getMotDePasse() {
         return motDePasse;

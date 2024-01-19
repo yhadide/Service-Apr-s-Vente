@@ -6,12 +6,10 @@ import com.dev.sav.service.ClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@RequestMapping("/client")
 @Controller
 public class ClientController {
     private final ClientService clientService;
@@ -19,14 +17,14 @@ public class ClientController {
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
-    @GetMapping("/client/registerclient")
+    @GetMapping("/registerclient")
     public String showClientRegistrationForm(Model model) {
         ClientDto clientDto = new ClientDto();
         model.addAttribute("clientDto", clientDto);
         return "client/registerclient";
     }
 
-    @PostMapping("/client/registerclient/save")
+    @PostMapping("/registerclient/save")
     public String clientRegistration(@ModelAttribute("clientDto") ClientDto clientDto,
                                      BindingResult result,
                                      Model model) {
@@ -45,7 +43,7 @@ public class ClientController {
         return "redirect:client/registerclient?success";
     }
 
-    @GetMapping("/clients")
+    @GetMapping()
     public String clients(Model model) {
         List<ClientDto> clients = clientService.findAllClients();
         model.addAttribute("clients", clients);

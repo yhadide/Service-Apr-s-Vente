@@ -12,17 +12,21 @@ public class Technicien {
     @Column(name = "nom")
     private String nom;
 
+    @Column(name = "prenom")
+    private String prenom;
+
     @Column(name = "specialite")
     private String specialite;
 
     @OneToMany(mappedBy = "technicien", cascade = CascadeType.ALL)
     private List<Dossier> dossiers;
 
-    public Technicien(int idTechnicien, String nom, String specialite, List<Dossier> dossiers) {
+    public Technicien(int idTechnicien, String nom,String prenom, String specialite, List<Dossier> dossiers) {
         this.idTechnicien = idTechnicien;
         this.nom = nom;
         this.specialite = specialite;
         this.dossiers = dossiers;
+        this.prenom = prenom;
     }
     public Technicien() {}
 
@@ -44,6 +48,14 @@ public class Technicien {
 
     public String getSpecialite() {
         return specialite;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
     public void setSpecialite(String specialite) {

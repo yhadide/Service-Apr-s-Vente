@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Système d'Inscription et de Connexion</title>
+  <title>Service Après Vente</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
@@ -12,16 +12,14 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/index}">Système d'Inscription et de Connexion</a>
+    <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/register}">S'inscrire</a>
-        </li>
+
       </ul>
     </div>
   </div>
@@ -55,11 +53,13 @@
               <input type="password" id="password" name="password" class="form-control"
                      placeholder="Entrez votre mot de passe" />
             </div>
-            <div class="form-group mb-3">
+            <div class="form-group mb-3 text-center">
               <button type="submit" class="btn btn-primary">Soumettre</button>
-              <span> Pas encore inscrit ?
-                                    <a th:href="@{/register}">Inscrivez-vous ici</a>
-                                </span>
+            </div>
+            <div class="text-center">
+    <span> Pas encore inscrit ?
+        <a th:href="@{/register}">Inscrivez-vous ici</a>
+    </span>
             </div>
           </form>
         </div>

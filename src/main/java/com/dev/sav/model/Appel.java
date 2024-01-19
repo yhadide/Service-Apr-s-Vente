@@ -1,27 +1,18 @@
 package com.dev.sav.model;
-import jakarta.persistence.*;
 
-import java.sql.Time;
-import java.util.Date;
+import jakarta.persistence.*;
+import java.sql.Date;
+
 @Entity
 @Table(name = "APPEL")
 public class Appel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "nº_chrono")
-    private int numeroChrono;
+    @Column(name = "appel_id")
+    private int appelId;
 
-    @Column(name = "date")
-    private Date date;
-
-    @Column(name = "heure")
-    private Time heure;
-
-    @Column(name = "motif")
-    private String motif;
-
-    @Column(name = "suite_donnée")
-    private String suiteDonnee;
+    @Column(name = "date_appel")
+    private Date dateAppel;
 
     @Column(name = "statut")
     private String statut;
@@ -30,71 +21,38 @@ public class Appel {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "client_no_client")
+    @JoinColumn(name = "client_id")
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "dossier_nom")
-    private Dossier dossier;
-    @Column(name = "article_référence")
-    private String articleReference;
-    @ManyToOne
-    @JoinColumn(name = "article_référence", insertable = false, updatable = false)
+    @JoinColumn(name = "article_id")
     private Article article;
 
-
-    public Appel(int numeroChrono, Date date, Time heure, String motif, String suiteDonnee, String statut, String description, Client client, Dossier dossier) {
-        this.numeroChrono = numeroChrono;
-        this.date = date;
-        this.heure = heure;
-        this.motif = motif;
-        this.suiteDonnee = suiteDonnee;
+    public Appel(int appelId, Date dateAppel, String statut, String description, Client client, Article article) {
+        this.appelId = appelId;
+        this.dateAppel = dateAppel;
         this.statut = statut;
         this.description = description;
         this.client = client;
-        this.dossier = dossier;
+        this.article = article;
     }
 
     public Appel() {}
 
-    public int getNumeroChrono() {
-        return numeroChrono;
+    public int getAppelId() {
+        return appelId;
     }
 
-    public void setNumeroChrono(int numeroChrono) {
-        this.numeroChrono = numeroChrono;
+    public void setAppelId(int appelId) {
+        this.appelId = appelId;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateAppel() {
+        return dateAppel;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Time getHeure() {
-        return heure;
-    }
-
-    public void setHeure(Time heure) {
-        this.heure = heure;
-    }
-
-    public String getMotif() {
-        return motif;
-    }
-
-    public void setMotif(String motif) {
-        this.motif = motif;
-    }
-
-    public String getSuiteDonnee() {
-        return suiteDonnee;
-    }
-
-    public void setSuiteDonnee(String suiteDonnee) {
-        this.suiteDonnee = suiteDonnee;
+    public void setDateAppel(Date dateAppel) {
+        this.dateAppel = dateAppel;
     }
 
     public String getStatut() {
@@ -119,22 +77,6 @@ public class Appel {
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    public Dossier getDossier() {
-        return dossier;
-    }
-
-    public void setDossier(Dossier dossier) {
-        this.dossier = dossier;
-    }
-
-    public String getArticleReference() {
-        return articleReference;
-    }
-
-    public void setArticleReference(String articleReference) {
-        this.articleReference = articleReference;
     }
 
     public Article getArticle() {

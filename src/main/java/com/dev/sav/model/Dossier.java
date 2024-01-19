@@ -1,129 +1,54 @@
 package com.dev.sav.model;
-import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.List;
+import jakarta.persistence.*;
+import java.sql.Date;
+
 @Entity
 @Table(name = "DOSSIER")
 public class Dossier {
     @Id
-    @Column(name = "nom")
-    private String nom;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "dossier_id")
+    private int dossierId;
 
-    @Column(name = "relève_de")
-    private int releveDe;
+    @ManyToOne
+    @JoinColumn(name = "appel_id")
+    private Appel appel;
 
-    @Column(name = "technicien_idt_technicien")
-    private int technicienIdTechnicien;
+    @ManyToOne
+    @JoinColumn(name = "technicien_id")
+    private Technicien technicien;
 
-    @Column(name = "appel_nº_chrono")
-    private int appelNumeroChrono;
+    @Column(name = "date_ouverture")
+    private Date dateOuverture;
 
-    @Column(name = "date_creation")
-    private Date dateCreation;
+    @Column(name = "date_cloture")
+    private Date dateCloture;
+
+    @Column(name = "statut")
+    private String statut;
 
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "relève_de", insertable = false, updatable = false)
-    private Client client;
-
-    @ManyToOne
-    @JoinColumn(name = "technicien_idt_technicien", insertable = false, updatable = false)
-    private Technicien technicien;
-
-    @OneToOne(mappedBy = "dossier", cascade = CascadeType.ALL)
-    private Appel appel;
-
-    @OneToMany(mappedBy = "dossier", cascade = CascadeType.ALL)
-    private List<MotifSuivi> motifsSuivi;
-
-    @Column(name = "article_référence")
-    private String articleReference;
-
-    @ManyToOne
-    @JoinColumn(name = "article_référence", insertable = false, updatable = false)
-    private Article article;
-
-
-    public Dossier(String nom, int releveDe, int technicienIdTechnicien, int appelNumeroChrono, Date dateCreation, String description, Client client, Technicien technicien, Appel appel, List<MotifSuivi> motifsSuivi) {
-        this.nom = nom;
-        this.releveDe = releveDe;
-        this.technicienIdTechnicien = technicienIdTechnicien;
-        this.appelNumeroChrono = appelNumeroChrono;
-        this.dateCreation = dateCreation;
-        this.description = description;
-        this.client = client;
-        this.technicien = technicien;
+    public Dossier(int dossierId, Appel appel, Technicien technicien, Date dateOuverture, Date dateCloture, String statut, String description) {
+        this.dossierId = dossierId;
         this.appel = appel;
-        this.motifsSuivi = motifsSuivi;
+        this.technicien = technicien;
+        this.dateOuverture = dateOuverture;
+        this.dateCloture = dateCloture;
+        this.statut = statut;
+        this.description = description;
     }
 
     public Dossier() {}
 
-    public String getNom() {
-        return nom;
+    public int getDossierId() {
+        return dossierId;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public int getReleveDe() {
-        return releveDe;
-    }
-
-    public void setReleveDe(int releveDe) {
-        this.releveDe = releveDe;
-    }
-
-    public int getTechnicienIdTechnicien() {
-        return technicienIdTechnicien;
-    }
-
-    public void setTechnicienIdTechnicien(int technicienIdTechnicien) {
-        this.technicienIdTechnicien = technicienIdTechnicien;
-    }
-
-    public int getAppelNumeroChrono() {
-        return appelNumeroChrono;
-    }
-
-    public void setAppelNumeroChrono(int appelNumeroChrono) {
-        this.appelNumeroChrono = appelNumeroChrono;
-    }
-
-    public Date getDateCreation() {
-        return dateCreation;
-    }
-
-    public void setDateCreation(Date dateCreation) {
-        this.dateCreation = dateCreation;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Technicien getTechnicien() {
-        return technicien;
-    }
-
-    public void setTechnicien(Technicien technicien) {
-        this.technicien = technicien;
+    public void setDossierId(int dossierId) {
+        this.dossierId = dossierId;
     }
 
     public Appel getAppel() {
@@ -134,27 +59,43 @@ public class Dossier {
         this.appel = appel;
     }
 
-    public List<MotifSuivi> getMotifsSuivi() {
-        return motifsSuivi;
+    public Technicien getTechnicien() {
+        return technicien;
     }
 
-    public void setMotifsSuivi(List<MotifSuivi> motifsSuivi) {
-        this.motifsSuivi = motifsSuivi;
+    public void setTechnicien(Technicien technicien) {
+        this.technicien = technicien;
     }
 
-    public String getArticleReference() {
-        return articleReference;
+    public Date getDateOuverture() {
+        return dateOuverture;
     }
 
-    public void setArticleReference(String articleReference) {
-        this.articleReference = articleReference;
+    public void setDateOuverture(Date dateOuverture) {
+        this.dateOuverture = dateOuverture;
     }
 
-    public Article getArticle() {
-        return article;
+    public Date getDateCloture() {
+        return dateCloture;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setDateCloture(Date dateCloture) {
+        this.dateCloture = dateCloture;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

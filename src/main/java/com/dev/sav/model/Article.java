@@ -1,31 +1,36 @@
 package com.dev.sav.model;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "ARTICLE")
 public class Article {
+
     @Id
-    @Column(name = "référence")
+    @Column(name = "reference")
     private String reference;
 
-    @Column(name = "libellé")
-    private String libelle;
+    @Column(name = "nom")
+    private String nom;
 
-    @Column(name = "prix")
-    private double prix;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "stock")
-    private int stock;
+    @Column(name = "prix_unitaire")
+    private double prixUnitaire;
+
 
     public Article() {}
 
-    public Article(String reference, String libelle, double prix, int stock) {
+    public Article(String reference, String nom, String description, double prixUnitaire) {
         this.reference = reference;
-        this.libelle = libelle;
-        this.prix = prix;
-        this.stock = stock;
+        this.nom = nom;
+        this.description = description;
+        this.prixUnitaire = prixUnitaire;
+
     }
 
     public String getReference() {
@@ -36,27 +41,28 @@ public class Article {
         this.reference = reference;
     }
 
-    public String getLibelle() {
-        return libelle;
+    public String getNom() {
+        return nom;
     }
 
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public double getPrix() {
-        return prix;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPrix(double prix) {
-        this.prix = prix;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getStock() {
-        return stock;
+    public double getPrixUnitaire() {
+        return prixUnitaire;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setPrixUnitaire(double prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
     }
+
 }
