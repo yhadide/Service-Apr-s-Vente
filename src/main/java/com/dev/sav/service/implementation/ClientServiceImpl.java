@@ -6,6 +6,7 @@ import com.dev.sav.model.Role;
 import com.dev.sav.repository.ClientRepository;
 import com.dev.sav.repository.RoleRepository;
 import com.dev.sav.service.ClientService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
@@ -45,6 +47,12 @@ public class ClientServiceImpl implements ClientService {
 
         clientRepository.save(client);
     }
+
+    @Override
+    public Client getClientById(int noClient) {
+        return clientRepository.findById(noClient).orElse(null);
+    }
+
 
     @Override
     public Client findClientByEmail(String email) {

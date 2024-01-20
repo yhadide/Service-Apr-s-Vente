@@ -1,6 +1,7 @@
 package com.dev.sav.config;
 
 
+import com.dev.sav.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +32,7 @@ public class SpringSecurity {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/client").hasRole("CLIENT")  // Restrict access to client-specific pages to CLIENT role
+                                .requestMatchers("/client/**").hasRole("CLIENT")  // Restrict access to client-specific pages to CLIENT role
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/articles/**").hasRole("ADMIN")
                                 .requestMatchers("/error").permitAll()
@@ -44,15 +45,14 @@ public class SpringSecurity {
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
                                 .successHandler((request, response, authentication) -> {
-                                    authentication.getAuthorities().forEach(authority -> {
-                                        System.out.println("User has authority: " + authority.getAuthority());
-                                    });
                                     if (authentication.getAuthorities().stream()
                                             .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))) {
                                         response.sendRedirect("/utilisateurs");
                                     } else if (authentication.getAuthorities().stream()
                                             .anyMatch(authority -> authority.getAuthority().equals("ROLE_CLIENT"))) {
-                                        response.sendRedirect("/client");
+                                        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+                                        int clientId = userDetails.getClient().getNoClient();
+                                        response.sendRedirect("/client/" + clientId);
                                     } else {
                                         throw new IllegalStateException("Unexpected role");
                                     }

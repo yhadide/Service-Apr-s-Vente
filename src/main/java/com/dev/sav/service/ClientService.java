@@ -7,7 +7,7 @@ import java.util.List;
 
     public interface ClientService {
         void saveClient(ClientDto clientDto);
-
+        Client getClientById(int noClient);
         Client findClientByEmail(String email);
 
         List<ClientDto> findAllClients();

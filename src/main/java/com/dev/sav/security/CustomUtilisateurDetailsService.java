@@ -41,9 +41,7 @@ public class CustomUtilisateurDetailsService implements UserDetailsService {
             Collection<Role> clientRoles = client.getRoles();
 
 
-            return new org.springframework.security.core.userdetails.User(client.getEmail(),
-                    client.getMotDePasse(),
-                    mapRolesToAuthorities(clientRoles));
+            return new CustomUserDetails(client);
         }
 
         throw new UsernameNotFoundException("Invalid username or password.");

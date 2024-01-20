@@ -47,12 +47,12 @@ public class ClientController {
     public String clients(Model model) {
         List<ClientDto> clients = clientService.findAllClients();
         model.addAttribute("clients", clients);
-        return "client/client";
+        return "utilisateurs";
     }
 
-    @GetMapping("/{email}")
-    public String getClientDetails(@PathVariable String email, Model model) {
-        Client client = clientService.findClientByEmail(email);
+    @GetMapping("/{id}")
+    public String getClientById(@PathVariable int id, Model model) {
+        Client client = clientService.getClientById(id);
         if (client != null) {
             model.addAttribute("client", client);
             return "client/client";
