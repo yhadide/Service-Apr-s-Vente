@@ -34,7 +34,7 @@ public class ArticleController {
             model.addAttribute("article", article);
             return "articles/article";
         } else {
-            return "articles/error";
+            return "error";
         }
     }
 
@@ -57,7 +57,7 @@ public class ArticleController {
             model.addAttribute("article", article);
             return "articles/article";
         } else {
-            return "articles/error";
+            return "error";
         }
     }
 

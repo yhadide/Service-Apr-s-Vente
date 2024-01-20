@@ -5,9 +5,11 @@
     <title>Title</title>
     <meta charset="UTF-8">
     <title>Service Après Vente</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity=""
+          crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity=""
+            crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -49,9 +51,12 @@
             <td th:text="${article.prixUnitaire}"></td>
             <td>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target='#editArticleModal' + ${article?.reference}">Edit</button>
-                    <form th:action="@{'/articles/' + ${article.reference}}" method="post" onsubmit="return confirm('Are you sure you want to delete?');">
-                        <input type="hidden" name="_method" value="delete" />
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            th:attr="data-bs-target='#editArticleModal' + ${article?.reference}">Edit
+                    </button>
+                    <form th:action="@{'/articles/' + ${article.reference}}" method="post"
+                          onsubmit="return confirm('Are you sure you want to delete?');">
+                        <input type="hidden" name="_method" value="delete"/>
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </div>
@@ -65,9 +70,9 @@
 </div>
 
 
-
 <!-- Modal -->
-<div class="modal fade" id="ajouterArticleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ajouterArticleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -92,7 +97,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="prixUnitaire" class="form-label">Prix Unitaire</label>
-                        <input  class="form-control" id="prixUnitaire" name="prixUnitaire" required>
+                        <input class="form-control" id="prixUnitaire" name="prixUnitaire" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -106,7 +111,8 @@
 
 <!-- Edit Modals -->
 <div th:each="article : ${articles}">
-    <div class="modal fade" th:id="'editArticleModal' + ${article?.reference}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" th:id="'editArticleModal' + ${article?.reference}" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -119,19 +125,23 @@
                     <form th:action="@{'/articles/edit/' + ${article.reference}}" method="post">
                         <div class="mb-3">
                             <label for="reference" class="form-label">Référence</label>
-                            <input type="text" class="form-control" id="Editreference" name="reference" th:value="${article.reference}" required>
+                            <input type="text" class="form-control" id="Editreference" name="reference"
+                                   th:value="${article.reference}" required>
                         </div>
                         <div class="mb-3">
                             <label for="nom" class="form-label">Nom</label>
-                            <input type="text" class="form-control" id="Editnom" name="nom" th:value="${article.nom}" required>
+                            <input type="text" class="form-control" id="Editnom" name="nom" th:value="${article.nom}"
+                                   required>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="Editdescription" name="description" required th:text="${article.description}"></textarea>
+                            <textarea class="form-control" id="Editdescription" name="description" required
+                                      th:text="${article.description}"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="prixUnitaire" class="form-label">Prix Unitaire</label>
-                            <input type="number" class="form-control" id="EditprixUnitaire" name="prixUnitaire" th:value="${article.prixUnitaire}" required>
+                            <input type="number" class="form-control" id="EditprixUnitaire" name="prixUnitaire"
+                                   th:value="${article.prixUnitaire}" required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -143,7 +153,6 @@
         </div>
     </div>
 </div>
-
 
 
 <div th:include="/headers/footer.html" class="footer fixed-bottom"></div>

@@ -49,4 +49,17 @@ public class ClientController {
         model.addAttribute("clients", clients);
         return "client/client";
     }
+
+    @GetMapping("/{email}")
+    public String getClientDetails(@PathVariable String email, Model model) {
+        Client client = clientService.findClientByEmail(email);
+        if (client != null) {
+            model.addAttribute("client", client);
+            return "client/client";
+        } else {
+            return "error";
+        }
+    }
+
+
 }

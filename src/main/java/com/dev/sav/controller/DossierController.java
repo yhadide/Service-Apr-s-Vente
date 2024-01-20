@@ -24,7 +24,7 @@ public class DossierController {
     public String getAllDossiers(Model model) {
         List<Dossier> dossiers = dossierService.getAllDossiers();
         model.addAttribute("dossiers", dossiers);
-        return "dossier/list";
+        return "dossiers/dossier";
     }
 
     @GetMapping("/{id}")
@@ -32,7 +32,7 @@ public class DossierController {
         Dossier dossier = dossierService.getDossierById(id);
         if (dossier != null) {
             model.addAttribute("dossier", dossier);
-            return "dossier/details";
+            return "dossiers/dossier";
         } else {
             return "error";
         }
@@ -41,13 +41,13 @@ public class DossierController {
     @GetMapping("/add")
     public String showDossierForm(Model model) {
         model.addAttribute("dossier", new Dossier());
-        return "dossier/form";
+        return "dossiers/dossier";
     }
 
     @PostMapping("/add")
     public String saveDossier(@ModelAttribute Dossier dossier) {
         dossierService.saveDossier(dossier);
-        return "redirect:/dossiers";
+        return "redirect:/dossiers/dossier";
     }
 
     @GetMapping("/edit/{id}")
@@ -55,7 +55,7 @@ public class DossierController {
         Dossier dossier = dossierService.getDossierById(id);
         if (dossier != null) {
             model.addAttribute("dossier", dossier);
-            return "dossier/edit";
+            return "dossiers/dossier";
         } else {
             return "error";
         }
@@ -64,12 +64,12 @@ public class DossierController {
     @PostMapping("/edit/{id}")
     public String updateDossier(@PathVariable int id, @ModelAttribute Dossier updatedDossier) {
         dossierService.updateDossier(id, updatedDossier);
-        return "redirect:/dossiers";
+        return "redirect:/dossiers/dossier";
     }
 
     @DeleteMapping("/{id}")
     public String deleteDossier(@PathVariable int id) {
         dossierService.deleteDossier(id);
-        return "redirect:/dossiers";
+        return "redirect:/dossiers/dossier";
     }
 }

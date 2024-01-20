@@ -32,22 +32,22 @@ public class AppelController {
         Appel appel = appelService.getAppelById(id);
         if (appel != null) {
             model.addAttribute("appel", appel);
-            return "appels/appel";
+            return "client/client";
         } else {
-            return "appels/error";
+            return "error";
         }
     }
 
     @GetMapping("/add")
     public String showAppelForm(Model model) {
         model.addAttribute("appel", new Appel());
-        return "appels/appel";
+        return "client/client";
     }
 
     @PostMapping("/add")
     public String saveAppel(@ModelAttribute Appel appel) {
         appelService.saveAppel(appel);
-        return "redirect:/appels/appel";
+        return "redirect:/client/client";
     }
 
     @GetMapping("/edit/{id}")
@@ -55,21 +55,21 @@ public class AppelController {
         Appel appel = appelService.getAppelById(id);
         if (appel != null) {
             model.addAttribute("appel", appel);
-            return "appels/appel";
+            return "client/client";
         } else {
-            return "appels/error";
+            return "error";
         }
     }
 
     @PostMapping("/edit/{id}")
     public String updateAppel(@PathVariable int id, @ModelAttribute Appel updatedAppel) {
         appelService.updateAppel(id, updatedAppel);
-        return "redirect:/appels/appel";
+        return "redirect:/client/client";
     }
 
     @DeleteMapping("/{id}")
     public String deleteAppel(@PathVariable int id) {
         appelService.deleteAppel(id);
-        return "redirect:/appels/appel";
+        return "redirect:/client/client";
     }
 }
