@@ -60,6 +60,10 @@
     <span> Pas encore inscrit ?
         <a th:href="@{/register}">Inscrivez-vous ici</a>
     </span>
+              <br>
+              <span> Devenir client
+        <a th:href="@{/client/registerclient}">Inscrivez-vous ici</a>
+    </span>
             </div>
           </form>
         </div>
@@ -67,6 +71,7 @@
     </div>
   </div>
 </div>
+<div th:include="/headers/footer.html" class="footer fixed-bottom"></div>
 </body>
 
 </html>

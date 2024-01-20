@@ -81,8 +81,9 @@
                         <p th:errors="*{telephone}" class="text-danger" th:if="${#fields.hasErrors('telephone')}"></p>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group text-center">
                         <button class="btn btn-primary" type="submit">S'inscrire</button>
+                        <br>
                         <span>Déjà inscrit? <a th:href="@{/login}">Connectez-vous ici</a></span>
                     </div>
                 </form>
@@ -90,6 +91,7 @@
         </div>
     </div>
 </div>
+<div th:include="/headers/footer.html" class="footer fixed-bottom"></div>
 </body>
 
 </html>
