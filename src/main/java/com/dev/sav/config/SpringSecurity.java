@@ -34,6 +34,7 @@ public class SpringSecurity {
                                 .requestMatchers("/client").hasRole("CLIENT")  // Restrict access to client-specific pages to CLIENT role
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/articles/**").hasRole("ADMIN")
+                                .requestMatchers("/techniciens/**").hasRole("ADMIN")
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/utilisateurs").hasRole("ADMIN")
                                 .requestMatchers("/client/registerclient").permitAll()  // Allow access to client registration form

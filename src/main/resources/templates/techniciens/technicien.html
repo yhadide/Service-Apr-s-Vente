@@ -43,14 +43,14 @@
         </thead>
         <tbody>
         <tr th:each="technicien : ${techniciens}">
-            <td th:text="${technicien.idt_technicien}"></td>
+            <td th:text="${technicien.idTechnicien}"></td>
             <td th:text="${technicien.nom}"></td>
             <td th:text="${technicien.prenom}"></td>
             <td th:text="${technicien.specialite}"></td>
             <td>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target='#edittechnicienModal' + ${technicien?.idt_technicien}">Edit</button>
-                    <form th:action="@{'/techniciens/' + ${technicien.idt_technicien}}" method="post" onsubmit="return confirm('Are you sure you want to delete?');">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target='#edittechnicienModal' + ${technicien?.idTechnicien}">Edit</button>
+                    <form th:action="@{'/techniciens/' + ${technicien.idTechnicien}}" method="post" onsubmit="return confirm('Are you sure you want to delete?');">
                         <input type="hidden" name="_method" value="delete" />
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
@@ -79,8 +79,8 @@
             <div class="modal-body">
                 <form action="/techniciens/add" method="post">
                     <div class="mb-3">
-                        <label for="idt_technicien" class="form-label">Référence</label>
-                        <input type="text" class="form-control" id="idt_technicien" name="idt_technicien" required>
+                        <label for="idTechnicien" class="form-label">Référence</label>
+                        <input type="text" class="form-control" id="idTechnicien" name="idTechnicien" required>
                     </div>
                     <div class="mb-3">
                         <label for="nom" class="form-label">Nom</label>
@@ -106,7 +106,7 @@
 
 <!-- Edit Modals -->
 <div th:each="technicien : ${techniciens}">
-    <div class="modal fade" th:id="'edittechnicienModal' + ${technicien?.idt_technicien}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" th:id="'edittechnicienModal' + ${technicien?.idTechnicien}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -116,10 +116,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{'/techniciens/edit/' + ${technicien.idt_technicien}}" method="post">
+                    <form th:action="@{'/techniciens/edit/' + ${technicien.idTechnicien}}" method="post">
                         <div class="mb-3">
-                            <label for="idt_technicien" class="form-label">ID Technicien</label>
-                            <input type="text" class="form-control" id="Editidt_technicien" name="idt_technicien" th:value="${technicien.idt_technicien}" required>
+                            <label for="idTechnicien" class="form-label">ID Technicien</label>
+                            <input type="text" class="form-control" id="EditidTechnicien" name="idTechnicien" th:value="${technicien.idTechnicien}" required>
                         </div>
                         <div class="mb-3">
                             <label for="nom" class="form-label">Nom</label>
@@ -131,7 +131,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="specialite" class="form-label">specialite</label>
-                            <input type="number" class="form-control" id="Editspecialite" name="specialite" th:value="${technicien.specialite}" required>
+                            <input type="text" class="form-control" id="Editspecialite" name="specialite" th:value="${technicien.specialite}" required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
