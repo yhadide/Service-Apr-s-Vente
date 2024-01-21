@@ -1,7 +1,11 @@
 package com.dev.sav.controller;
 
 import com.dev.sav.model.Appel;
+import com.dev.sav.model.Article;
 import com.dev.sav.service.AppelService;
+import com.dev.sav.service.ArticleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +18,13 @@ import java.util.List;
 public class AppelController {
 
     private final AppelService appelService;
+    private final ArticleService articleService;
+    private final Logger logger = LoggerFactory.getLogger(AppelController.class);
 
     @Autowired
-    public AppelController(AppelService appelService) {
+    public AppelController(AppelService appelService, ArticleService articleService) {
         this.appelService = appelService;
+        this.articleService = articleService;
     }
 
     @GetMapping
@@ -26,6 +33,7 @@ public class AppelController {
         model.addAttribute("appels", appels);
         return "appels/appel";
     }
+
 
     @GetMapping("/{id}")
     public String getAppelById(@PathVariable int id, Model model) {
@@ -40,6 +48,8 @@ public class AppelController {
 
     @GetMapping("/add")
     public String showAppelForm(Model model) {
+        List<Article> articles = articleService.getAllArticles();
+        model.addAttribute("articles", articles);
         model.addAttribute("appel", new Appel());
         return "client/client";
     }
