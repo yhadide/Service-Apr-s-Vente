@@ -1,7 +1,9 @@
 package com.dev.sav.controller;
 
 import com.dev.sav.model.Dossier;
+import com.dev.sav.model.Technicien;
 import com.dev.sav.service.DossierService;
+import com.dev.sav.service.TechnicienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +16,12 @@ import java.util.List;
 public class DossierController {
 
     private final DossierService dossierService;
+    private final TechnicienService technicienService;
 
     @Autowired
-    public DossierController(DossierService dossierService) {
+    public DossierController(DossierService dossierService, TechnicienService technicienService) {
         this.dossierService = dossierService;
+        this.technicienService = technicienService;
     }
 
     @GetMapping
@@ -47,7 +51,7 @@ public class DossierController {
     @PostMapping("/add")
     public String saveDossier(@ModelAttribute Dossier dossier) {
         dossierService.saveDossier(dossier);
-        return "redirect:/dossiers/dossier";
+        return "redirect:/dossiers";
     }
 
     @GetMapping("/edit/{id}")
@@ -62,9 +66,11 @@ public class DossierController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateDossier(@PathVariable int id, @ModelAttribute Dossier updatedDossier) {
+    public String updateDossier(@PathVariable int id, @ModelAttribute Dossier updatedDossier, Model model) {
+        List<Technicien> techniciens = technicienService.getAllTechniciens();
+        model.addAttribute("techniciens", techniciens);
         dossierService.updateDossier(id, updatedDossier);
-        return "redirect:/dossiers/dossier";
+        return "redirect:/dossiers";
     }
 
     @DeleteMapping("/{id}")

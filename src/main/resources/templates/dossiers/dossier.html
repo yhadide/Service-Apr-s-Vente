@@ -47,22 +47,81 @@
         <tbody>
         <!-- Iterate over the dossiers and display each row -->
         <tr th:each="dossier : ${dossiers}">
-            <td th:text="${dossier.dossierId}"></td>
-            <td th:text="${dossier.appel.appelId}"></td>
-            <td th:text="${dossier.technicien.nom}"></td>
-            <td th:text="${#dates.format(dossier.dateOuverture, 'yyyy-MM-dd')}"></td>
-            <td th:text="${#dates.format(dossier.dateCloture, 'yyyy-MM-dd')}"></td>
-            <td th:text="${dossier.statut}"></td>
-            <td th:text="${dossier.description}"></td>
+            <td th:text="${dossier?.dossierId}"></td>
+            <td th:text="${dossier?.appel?.appelId}"></td>
+            <td th:text="${dossier?.technicien?.nom}"></td>
+            <td th:text="${dossier?.dateOuverture != null ? #dates.format(dossier.dateOuverture, 'yyyy-MM-dd') : ''}"></td>
+            <td th:text="${dossier?.dateCloture != null ? #dates.format(dossier.dateCloture, 'yyyy-MM-dd') : ''}"></td>
+            <td th:text="${dossier?.statut}"></td>
+            <td th:text="${dossier?.description}"></td>
             <td>
-                <!-- Add an edit button with a link to an edit page -->
-<!--                <a th:href="@{'/dossiers/edit/' + ${dossier.dossierId}}" class="btn btn-primary btn-sm">Edit</a>-->
-                <!-- Add other action buttons as needed -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        th:attr="data-bs-target='#editDossierModal' + ${dossier?.dossierId}">Edit
+                </button>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
+
+
+<div th:each="dossier : ${dossiers}">
+    <div class="modal fade" th:id="'editDossierModal' + ${dossier?.dossierId}" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleEditModalLabel">Modifier le dossier</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{'/dossiers/edit/' + ${dossier.dossierId}}" method="post">
+                        <div class="mb-3">
+                            <label for="dateOuverture" class="form-label">Date d'ouverture</label>
+                            <input type="text" class="form-control" id="EditDateOuverture" name="dateOuverture"
+                                   th:value="${#dates.format(dossier.dateOuverture, 'yyyy-MM-dd')}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateCloture" class="form-label">Date de clôture</label>
+                            <input type="text" class="form-control" id="EditDateCloture" name="dateCloture"
+                                   th:value="${#dates.format(dossier.dateCloture, 'yyyy-MM-dd')}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="statut" class="form-label">Statut</label>
+                            <input type="text" class="form-control" id="EditStatut" name="statut"
+                                   th:value="${dossier.statut}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="EditDescription" name="description" required>
+                                ${dossier.description}
+                            </textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="article" class="form-label">Article Concerné</label>
+                            <input type="text" class="form-control" id="EditArticle" name="article"
+                                   th:value="${dossier.appel.article.getReference()}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="technicien" class="form-label">Technicien</label>
+                            <select class="form-select" id="EditTechnicien" name="technicien" required>
+                                <option th:each="technicien : ${techniciens}"
+                                        th:value="${technicien.technicienId}"
+                                        th:text="${technicien.nom + ' ' + technicien.prenom}"></option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>

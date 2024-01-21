@@ -1,7 +1,9 @@
 package com.dev.sav.service.implementation;
 
 import com.dev.sav.model.Appel;
+import com.dev.sav.model.Dossier;
 import com.dev.sav.repository.AppelRepository;
+import com.dev.sav.repository.DossierRepository;
 import com.dev.sav.service.AppelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,12 @@ import java.util.List;
 public class AppelServiceImpl implements AppelService {
 
     private final AppelRepository appelRepository;
+    private final DossierRepository dossierRepository;
 
     @Autowired
-    public AppelServiceImpl(AppelRepository appelRepository) {
+    public AppelServiceImpl(AppelRepository appelRepository, DossierRepository dossierRepository) {
         this.appelRepository = appelRepository;
+        this.dossierRepository = dossierRepository;
     }
 
     @Override
@@ -54,5 +58,20 @@ public class AppelServiceImpl implements AppelService {
     @Override
     public void deleteAppel(int id) {
         appelRepository.deleteById(id);
+    }
+
+    @Override
+    public Appel createAppelWithDossier(Appel appel) {
+        Appel savedAppel = appelRepository.save(appel);
+
+        Dossier dossier = new Dossier();
+        dossier.setAppel(savedAppel);
+        dossier.setDateOuverture(savedAppel.getDateAppel());
+        dossier.setStatut(savedAppel.getStatut());
+        dossier.setDescription(savedAppel.getDescription());
+
+        dossierRepository.save(dossier);
+
+        return savedAppel;
     }
 }

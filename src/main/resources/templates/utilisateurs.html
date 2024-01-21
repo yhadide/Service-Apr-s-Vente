@@ -45,14 +45,16 @@
         </thead>
         <tbody>
         <tr th:each="utilisateur : ${utilisateurs}">
-            <td th:text="${utilisateur.prenom}"></td>
-            <td th:text="${utilisateur.nom}"></td>
-            <td th:text="${utilisateur.email}"></td>
+            <td th:text="${utilisateur != null ? utilisateur.prenom : ''}"></td>
+            <td th:text="${utilisateur != null ? utilisateur.nom : ''}"></td>
+            <td th:text="${utilisateur != null ? utilisateur.email : ''}"></td>
         </tr>
         </tbody>
     </table>
 </div>
 <div th:include="/headers/footer.html" class="footer fixed-bottom"></div>
 </body>
+
+
 
 </html>

@@ -53,9 +53,7 @@
         </tr>
         </tbody>
     </table>
-
     <h2>List of Appels</h2>
-
 
     <table class="table table-striped">
         <thead>
@@ -64,27 +62,22 @@
             <th scope="col">Date de l'appel</th>
             <th scope="col">Statut</th>
             <th scope="col">Description</th>
-
+            <th scope="col">Article concerné</th>
         </tr>
         </thead>
         <tbody>
-
         <tr th:each="appel, rowStat : ${client.appels}">
             <td th:text="${rowStat.index + 1}"></td>
             <td th:text="${appel.dateAppel}"></td>
             <td th:text="${appel.statut}"></td>
             <td th:text="${appel.description}"></td>
+            <td th:text="${appel.article?.nom}"></td> <!-- Assuming "article" is the reference to Article -->
         </tr>
         </tbody>
     </table>
 </div>
 
-<!--<div>-->
-<!--    <h3>Article References (Test)</h3>-->
-<!--    <ul>-->
-<!--        <li th:each="article : ${articles}" th:text="${article.reference}"></li>-->
-<!--    </ul>-->
-<!--</div>-->
+
 
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reclamationModal">
     faire une reclamation
@@ -95,8 +88,7 @@
 
 
 
-<div class="modal fade" id="reclamationModal" data-articles="${articles}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="reclamationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -109,22 +101,23 @@
                 <form action="/appels/add" method="post">
                     <div class="mb-3">
                         <label for="dateappel" class="form-label">Date d'appel</label>
-                        <input type="text" class="form-control" id="dateappel" name="dateAppel" required>
+                        <input type="date" class="form-control" id="dateappel" name="dateAppel" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" hidden>
                         <label for="statut" class="form-label">Statut</label>
-                        <input type="text" class="form-control" id="statut" name="statut" required>
+                        <input type="text" class="form-control" id="statut" name="statut" value="appel soumis" required>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
                         <input type="text" class="form-control" id="description" name="description" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="article" class="form-label">Article</label>
+                        <select class="form-select" id="article" name="article" required>
+                            <!-- Dropdown options will be populated using JavaScript -->
+                        </select>
+                    </div>
                     <input type="hidden" id="client" name="client" th:value="${client.noClient}" readonly>
-<!--                    <div class="mb-3">-->
-<!--                        <label for="articleSelect" class="form-label">Article</label>-->
-<!--                        <select class="form-select" id="articleSelect" name="article" required></select>-->
-<!--                    </div>-->
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                         <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -134,24 +127,40 @@
         </div>
     </div>
 </div>
+
+
+
+
 </html>
 
-<!--<script th:inline="javascript">-->
-<!--    /*<![CDATA[*/-->
-<!--    var articles = /*[[${articles}]]*/ [];-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
 
-<!--    $(document).ready(function() {-->
-<!--        var modal = $('#reclamationModal');-->
-<!--        var articleSelect = $('#articleSelect');-->
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/articles/articles-json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.length > 0) {
 
-<!--        // Clear existing options-->
-<!--        articleSelect.empty();-->
+                    for (var i = 0; i < data.length; i++) {
+                        var articleOption = '<option value="' + data[i].reference + '">' + data[i].nom + '</option>';
+                        document.getElementById('article').insertAdjacentHTML('beforeend', articleOption);
+                    }
+                } else {
+                    console.error("No articles found or 'data' is null.");
+                }
+            })
+            .catch(error => {
+                console.error('Error during fetch operation:', error);
+            });
+    });
 
-<!--        articles.forEach(function(article) {-->
-<!--            var option = $('<option>').val(article.reference).text(article.reference);-->
-<!--            articleSelect.append(option);-->
-<!--        });-->
-<!--    });-->
-<!--    /*]]>*/-->
-<!--</script>-->
+    /*]]>*/
+</script>
+
 

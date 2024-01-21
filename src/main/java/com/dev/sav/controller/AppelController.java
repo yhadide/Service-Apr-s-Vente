@@ -27,14 +27,6 @@ public class AppelController {
         this.articleService = articleService;
     }
 
-    @GetMapping
-    public String getAllAppels(Model model) {
-        List<Appel> appels = appelService.getAllAppels();
-        model.addAttribute("appels", appels);
-        return "appels/appel";
-    }
-
-
     @GetMapping("/{id}")
     public String getAppelById(@PathVariable int id, Model model) {
         Appel appel = appelService.getAppelById(id);
@@ -56,8 +48,8 @@ public class AppelController {
 
     @PostMapping("/add")
     public String saveAppel(@ModelAttribute Appel appel) {
-        appelService.saveAppel(appel);
-        return "redirect:/client/client";
+        appelService.createAppelWithDossier(appel);
+        return "redirect:/client";
     }
 
     @GetMapping("/edit/{id}")

@@ -27,6 +27,13 @@ public class ArticleController {
         return "articles/article";
     }
 
+    @GetMapping("/articles-json")
+    @ResponseBody
+    public List<Article> getAllArticlesJson() {
+        List<Article> articles = articleService.getAllArticles();
+        return articles;
+    }
+
     @GetMapping("/{reference}")
     public String getArticleByReference(@PathVariable String reference, Model model) {
         Article article = articleService.getArticleByReference(reference);
