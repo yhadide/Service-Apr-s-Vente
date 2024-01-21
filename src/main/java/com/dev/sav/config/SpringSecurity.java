@@ -34,7 +34,7 @@ public class SpringSecurity {
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/client/**").hasRole("CLIENT")  // Restrict access to client-specific pages to CLIENT role
                                 .requestMatchers("/appels/**").permitAll()
-                                .requestMatchers("/techniciens/**").hasRole("ADMIN")
+                                .requestMatchers("/techniciens/**").permitAll()
                                 .requestMatchers("/dossiers/**").hasRole("ADMIN")
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/articles/**").permitAll()

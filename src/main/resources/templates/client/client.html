@@ -109,7 +109,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="description" name="description" required>
+                        <textarea class="form-control" id="description" name="description" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="article" class="form-label">Article</label>
@@ -119,6 +119,7 @@
                     </div>
                     <input type="hidden" id="client" name="client" th:value="${client.noClient}" readonly>
                     <div class="modal-footer">
+                        <input type="hidden" name="clientId" th:value="${client.noClient}" />
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                         <button type="submit" class="btn btn-primary">Ajouter</button>
                     </div>

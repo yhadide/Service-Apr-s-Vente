@@ -4,6 +4,7 @@ import com.dev.sav.model.Appel;
 import com.dev.sav.model.Article;
 import com.dev.sav.service.AppelService;
 import com.dev.sav.service.ArticleService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,10 @@ public class AppelController {
     }
 
     @PostMapping("/add")
-    public String saveAppel(@ModelAttribute Appel appel) {
+    public String saveAppel(@ModelAttribute Appel appel, HttpServletRequest request) {
         appelService.createAppelWithDossier(appel);
-        return "redirect:/client";
+        String clientId = request.getParameter("clientId");
+        return "redirect:/client/" + clientId;
     }
 
     @GetMapping("/edit/{id}")

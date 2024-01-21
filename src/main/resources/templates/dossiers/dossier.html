@@ -48,7 +48,7 @@
         <!-- Iterate over the dossiers and display each row -->
         <tr th:each="dossier : ${dossiers}">
             <td th:text="${dossier?.dossierId}"></td>
-            <td th:text="${dossier?.appel?.appelId}"></td>
+            <td th:text="${dossier?.appel?.client.prenom}"></td>
             <td th:text="${dossier?.technicien?.nom}"></td>
             <td th:text="${dossier?.dateOuverture != null ? #dates.format(dossier.dateOuverture, 'yyyy-MM-dd') : ''}"></td>
             <td th:text="${dossier?.dateCloture != null ? #dates.format(dossier.dateCloture, 'yyyy-MM-dd') : ''}"></td>
@@ -102,15 +102,13 @@
                         <div class="mb-3">
                             <label for="article" class="form-label">Article Concerné</label>
                             <input type="text" class="form-control" id="EditArticle" name="article"
-                                   th:value="${dossier.appel.article.getReference()}" required>
+                                   th:value="${dossier.appel.article?.reference}" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="technicien" class="form-label">Technicien</label>
-                            <select class="form-select" id="EditTechnicien" name="technicien" required>
-                                <option th:each="technicien : ${techniciens}"
-                                        th:value="${technicien.technicienId}"
-                                        th:text="${technicien.nom + ' ' + technicien.prenom}"></option>
+                            <select class="form-select" id="technicien" name="technicien" required>
+                                <!-- Options will be added dynamically using JavaScript -->
                             </select>
                         </div>
 
@@ -122,6 +120,36 @@
     </div>
 </div>
 
-
 </body>
 </html>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/techniciens/techniciens-json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        var technicienOption = '<option value="' + data[i].idTechnicien + '">' + data[i].nom + ' ' + data[i].prenom + ' - ' + data[i].specialite + '</option>';
+                        document.getElementById('technicien').insertAdjacentHTML('beforeend', technicienOption);
+                    }
+                } else {
+                    console.error("No techniciens found or 'data' is null.");
+                }
+            })
+            .catch(error => {
+                console.error('Error during fetch operation:', error);
+            });
+    });
+
+    /*]]>*/
+</script>
+
+

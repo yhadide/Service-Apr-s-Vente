@@ -21,6 +21,12 @@ public class TechnicienController {
         model.addAttribute("techniciens", techniciens);
         return "techniciens/technicien";
     }
+    @GetMapping("/techniciens-json")
+    @ResponseBody
+    public List<Technicien> getAllTechniciensJson() {
+        List<Technicien> techniciens = technicienService.getAllTechniciens();
+        return techniciens;
+    }
 
     @GetMapping("/{id}")
     public String getTechnicienById(@PathVariable int id, Model model) {
