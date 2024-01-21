@@ -3,11 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta charset="UTF-8">
+    <title>Service Après Vente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="" crossorigin="anonymous"></script>
+
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item me-2">
+                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Déconnexion</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row col-md-10">
+        <h2>Liste des Techniciens</h2>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID Technicien</th>
+            <th>Nom</th>
+            <th>prenom</th>
+            <th>Prix Unitaire</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="technicien : ${techniciens}">
+            <td th:text="${technicien.idTechnicien}"></td>
+            <td th:text="${technicien.nom}"></td>
+            <td th:text="${technicien.prenom}"></td>
+            <td th:text="${technicien.specialite}"></td>
+            <td>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target='#edittechnicienModal' + ${technicien?.idTechnicien}">Edit</button>
+                    <form th:action="@{'/techniciens/' + ${technicien.idTechnicien}}" method="post" onsubmit="return confirm('Are you sure you want to delete?');">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ajoutertechnicienModal">
+        Ajouter un technicien
+    </button>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="ajoutertechnicienModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ajouter un technicien</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/techniciens/add" method="post">
+                    <div class="mb-3">
+                        <label for="nom" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="nom" name="nom" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prenom" class="form-label">prenom</label>
+                        <textarea class="form-control" id="prenom" name="prenom" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="specialite" class="form-label">specialite </label>
+                        <input  class="form-control" id="specialite" name="specialite" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modals -->
+<div th:each="technicien : ${techniciens}">
+    <div class="modal fade" th:id="'edittechnicienModal' + ${technicien?.idTechnicien}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleEditModalLabel">Modifier technicien</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{'/techniciens/edit/' + ${technicien.idTechnicien}}" method="post">
+                        <div class="mb-3">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="Editnom" name="nom" th:value="${technicien.nom}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prenom" class="form-label">prenom</label>
+                            <textarea class="form-control" id="Editprenom" name="prenom" required th:text="${technicien.prenom}"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="specialite" class="form-label">specialite</label>
+                            <input type="text" class="form-control" id="Editspecialite" name="specialite" th:value="${technicien.specialite}" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-primary">Modifier</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div th:include="/headers/footer.html" class="footer fixed-bottom"></div>
 </body>
-</html>
