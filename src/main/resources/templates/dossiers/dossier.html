@@ -101,7 +101,7 @@
     </nav>
 
     <div class="container mt-5">
-        <h2>List of Dossiers</h2>
+        <h2 class="text-center">Dossiers</h2>
 
         <table class="table table-bordered table-hover">
             <thead>
@@ -117,7 +117,7 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Iterate over the dossiers and display each row -->
+
             <tr th:each="dossier, dossierStat : ${dossiers}">
                 <td th:text="${dossier?.dossierId}"></td>
                 <td th:text="${dossier?.appel?.client.prenom}"></td>
@@ -169,7 +169,7 @@
                             <div class="mb-3">
                                 <label for="technicien" class="form-label">Technicien</label>
                                 <select class="form-select" id="technicien" name="technicien" required>
-                                    <!-- Options will be added dynamically using JavaScript -->
+
                                 </select>
                             </div>
 
@@ -188,7 +188,7 @@
     /*<![CDATA[*/
 
     document.addEventListener('DOMContentLoaded', function () {
-        // Fetch techniciens data only once
+
         fetch('/techniciens/techniciens-json')
             .then(response => {
                 if (!response.ok) {
@@ -197,16 +197,14 @@
                 return response.json();
             })
             .then(techniciensData => {
-                // Select all modals with the class "editDossierModal"
+
                 const editDossierModals = document.querySelectorAll('.editDossierModal');
 
                 editDossierModals.forEach(modal => {
                     const technicienSelect = modal.querySelector('#technicien');
 
-                    // Clear the previous options
                     technicienSelect.innerHTML = '';
 
-                    // Populate the technicien dropdown with options for each modal
                     techniciensData.forEach(technicien => {
                         const technicienOption = `<option value="${technicien.idTechnicien}">${technicien.nom} ${technicien.prenom} - ${technicien.specialite}</option>`;
                         technicienSelect.insertAdjacentHTML('beforeend', technicienOption);
