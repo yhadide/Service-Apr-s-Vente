@@ -10,4 +10,6 @@ public interface TechnicienService {
     void saveTechnicien(Technicien technicien);
     void updateTechnicien(int id, Technicien updatedTechnicien);
     void deleteTechnicien(int id);
+    long getTechnicienCount();
+
 }

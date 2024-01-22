@@ -20,7 +20,10 @@ public class TechnicienController {
     public String getAllTechniciens(Model model) {
         List<Technicien> techniciens = technicienService.getAllTechniciens();
         model.addAttribute("techniciens", techniciens);
+        model.addAttribute("technicienCount", technicienService.getTechnicienCount());
+        model.addAttribute("techniciens", techniciens);
         return "techniciens/technicien";
+    
     }
     @GetMapping("/techniciens-json")
     @ResponseBody

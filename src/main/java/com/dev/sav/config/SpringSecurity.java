@@ -43,6 +43,8 @@ public class SpringSecurity {
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/utilisateurs").hasRole("ADMIN")
                                 .requestMatchers("/client/listclients").hasRole("ADMIN")  // Restrict access to clients to ADMIN role
+                                .requestMatchers("/techniciens/techniciens-json").permitAll()
+
                 ).formLogin(form ->
                         form
                                 .loginPage("/login")

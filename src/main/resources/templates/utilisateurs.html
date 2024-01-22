@@ -7,11 +7,31 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="" crossorigin="anonymous"></script>
-    <style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+     <script>
+        function updateTime() {
+            var now = new Date();
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            var formattedDate = now.toLocaleDateString('fr-FR', options);
+
+            document.getElementById('currentDateTime').textContent = formattedDate;
+        }
+
+        // Update the time every second
+        setInterval(updateTime, 1000);
+
+        // Initial call to set the time immediately
+        updateTime();
+    </script>
+   <style>
         body {
             background-color: #f8f9fa;
             color: #495057;
             font-family: 'Century Gothic', Futura, sans-serif;
+                    background-image: url('	image.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
         }
 
         .navbar {
@@ -28,11 +48,19 @@
         }
 
         .container {
-            margin-top: 3rem;
+            margin-top: 3rem; 
         }
 
         .btn-primary {
             margin-right: 10px;
+        }
+
+        .btn-sm {
+            /* Add this class for smaller buttons */
+            padding: 0.3rem 0.6rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
         }
 
         .table {
@@ -43,37 +71,75 @@
             background-color: #343a40;
             color: #fff;
             padding: 1rem;
-            position: fixed;
-            bottom: 0;
+            /* position: fixed; bottom: 0; Remove if not needed */
             width: 100%;
         }
     </style>
 </head>
 
-<body>
+<body >
 
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				                <div class="navbar-text" id="currentDateTime"></div>            
+            </div>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/logout}">Déconnexion</a>
                     </li>
-                </ul>
-            </div>
+            </ul>
         </div>
     </nav>
 
-    <a class="btn btn-primary" th:href="@{/articles}">Voir les articles</a>
-    <a class="btn btn-primary" th:href="@{/techniciens}">Voir les techniciens</a>
-    <a class="btn btn-primary" th:href="@{/dossiers}">Voir les dossiers</a>
+ 
+ <div class="container">
+        <div class="row mt-4">
+            <!-- Dashboard Section -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">Technicians</h5>
+                    <p class="card-text">Total Technicians: <span th:text="${technicienCount}">0</span></p>
+                </div>	
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Clients</h5>
+                        <p class="card-text">Total Clients: <span th:text="${clientCount}">0</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dossiers</h5>
+                        <p class="card-text">Total Dossiers: <span th:text="${dossierCount}">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
+        <!-- Buttons Section -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <a class="btn btn-primary btn-sm" th:href="@{/articles}">Voir les articles</a>
+            </div>
+            <div class="col-md-4">
+                <a class="btn btn-primary btn-sm" th:href="@{/techniciens}">Voir les techniciens</a>
+            </div>
+            <div class="col-md-4">
+                <a class="btn btn-primary btn-sm" th:href="@{/dossiers}">Voir les dossiers</a>
+            </div>
+        </div>
+    </div>
 
 </body>
 

@@ -45,4 +45,7 @@ public class TechnicienServiceImpl implements TechnicienService {
     public void deleteTechnicien(int id) {
         technicienRepository.deleteById(id);
     }
+    public long getTechnicienCount() {
+        return technicienRepository.count(); // Assuming count method in your repository
+    }
 }
