@@ -32,6 +32,8 @@ public class SpringSecurity {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/client/registerclient").permitAll()
+                                .requestMatchers("/client/registerclient/save").permitAll()  // Allow client registration form submission
                                 .requestMatchers("/client/**").hasRole("CLIENT")  // Restrict access to client-specific pages to CLIENT role
                                 .requestMatchers("/appels/**").permitAll()
                                 .requestMatchers("/techniciens/**").permitAll()
@@ -40,8 +42,6 @@ public class SpringSecurity {
                                 .requestMatchers("/articles/**").permitAll()
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/utilisateurs").hasRole("ADMIN")
-                                .requestMatchers("/client/registerclient").permitAll()  // Allow access to client registration form
-                                .requestMatchers("/client/registerclient/save").permitAll()  // Allow client registration form submission
                                 .requestMatchers("/client/listclients").hasRole("ADMIN")  // Restrict access to clients to ADMIN role
                 ).formLogin(form ->
                         form
