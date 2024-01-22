@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
     <meta charset="UTF-8">
     <title>Service Après Vente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity=""
@@ -10,85 +9,134 @@
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity=""
             crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-family: 'Century Gothic', Futura, sans-serif;
+        }
+
+        .navbar {
+            background-color: #343a40;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-toggler-icon {
+            background-color: #fff;
+        }
+
+        .container {
+            margin-top: 3rem;
+        }
+
+        .btn-primary {
+            margin-right: 10px;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Modal styling */
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+        }
+    </style>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item me-2">
-                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Déconnexion</a>
-                </li>
-            </ul>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item me-2">
+                        <a class="nav-link active" aria-current="page" th:href="@{/logout}">Déconnexion</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
+
+    <div class="container">
+        <h2>Vos informations</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Téléphone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${client != null}">
+                    <td th:text="${client.nom}"></td>
+                    <td th:text="${client.prenom}"></td>
+                    <td th:text="${client.adresse}"></td>
+                    <td th:text="${client.email}"></td>
+                    <td th:text="${client.telephone}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Liste des Appels</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Date de l'appel</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Article concerné</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="appel, rowStat : ${client.appels}">
+                    <td th:text="${appel.dateAppel}"></td>
+                    <td th:text="${appel.statut}"></td>
+                    <td th:text="${appel.description}"></td>
+                    <td th:text="${appel.article?.nom}"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-</nav>
-<div class="container">
-    <h2>Vos information</h2>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Adresse</th>
-            <th scope="col">Email</th>
-            <th scope="col">Téléphone</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${client != null}">
-            <td th:text="${client.noClient}"></td>
-            <td th:text="${client.nom}"></td>
-            <td th:text="${client.prenom}"></td>
-            <td th:text="${client.adresse}"></td>
-            <td th:text="${client.email}"></td>
-            <td th:text="${client.telephone}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <h2>List of Appels</h2>
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Date de l'appel</th>
-            <th scope="col">Statut</th>
-            <th scope="col">Description</th>
-            <th scope="col">Article concerné</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="appel, rowStat : ${client.appels}">
-            <td th:text="${rowStat.index + 1}"></td>
-            <td th:text="${appel.dateAppel}"></td>
-            <td th:text="${appel.statut}"></td>
-            <td th:text="${appel.description}"></td>
-            <td th:text="${appel.article?.nom}"></td> <!-- Assuming "article" is the reference to Article -->
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reclamationModal">
+        Faire une réclamation
+    </button>
 
 
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reclamationModal">
-    faire une reclamation
-</button>
-
-<div th:include="/headers/footer.html" class="footer fixed-bottom"></div>
-</body>
-
-
-
-<div class="modal fade" id="reclamationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="reclamationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -114,7 +162,6 @@
                     <div class="mb-3">
                         <label for="article" class="form-label">Article</label>
                         <select class="form-select" id="article" name="article" required>
-                            <!-- Dropdown options will be populated using JavaScript -->
                         </select>
                     </div>
                     <input type="hidden" id="client" name="client" th:value="${client.noClient}" readonly>
@@ -131,37 +178,33 @@
 
 
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/articles/articles-json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var articleOption = '<option value="' + data[i].reference + '">' + data[i].nom + '</option>';
+                            document.getElementById('article').insertAdjacentHTML('beforeend', articleOption);
+                        }
+                    } else {
+                        console.error("No articles found or 'data' is null.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during fetch operation:', error);
+                });
+        });
+        /*]]>*/
+    </script>
+
+</body>
 
 </html>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('/articles/articles-json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data && data.length > 0) {
-
-                    for (var i = 0; i < data.length; i++) {
-                        var articleOption = '<option value="' + data[i].reference + '">' + data[i].nom + '</option>';
-                        document.getElementById('article').insertAdjacentHTML('beforeend', articleOption);
-                    }
-                } else {
-                    console.error("No articles found or 'data' is null.");
-                }
-            })
-            .catch(error => {
-                console.error('Error during fetch operation:', error);
-            });
-    });
-
-    /*]]>*/
-</script>
-
-

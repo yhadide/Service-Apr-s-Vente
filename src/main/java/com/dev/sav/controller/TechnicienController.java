@@ -12,6 +12,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/techniciens")
 public class TechnicienController {
+
     @Autowired
     private TechnicienService technicienService;
 

@@ -1,4 +1,5 @@
 package com.dev.sav.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 @Entity
@@ -19,6 +20,7 @@ public class Technicien {
     private String specialite;
 
     @OneToMany(mappedBy = "technicien", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Dossier> dossiers;
 
     public Technicien(int idTechnicien, String nom,String prenom, String specialite, List<Dossier> dossiers) {
