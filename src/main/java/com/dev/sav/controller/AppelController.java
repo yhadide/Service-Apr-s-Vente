@@ -19,13 +19,10 @@ import java.util.List;
 public class AppelController {
 
     private final AppelService appelService;
-    private final ArticleService articleService;
-    private final Logger logger = LoggerFactory.getLogger(AppelController.class);
 
     @Autowired
-    public AppelController(AppelService appelService, ArticleService articleService) {
+    public AppelController(AppelService appelService) {
         this.appelService = appelService;
-        this.articleService = articleService;
     }
 
     @GetMapping("/{id}")
@@ -41,8 +38,6 @@ public class AppelController {
 
     @GetMapping("/add")
     public String showAppelForm(Model model) {
-        List<Article> articles = articleService.getAllArticles();
-        model.addAttribute("articles", articles);
         model.addAttribute("appel", new Appel());
         return "client/client";
     }

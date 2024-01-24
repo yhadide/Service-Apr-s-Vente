@@ -1,5 +1,6 @@
 package com.dev.sav.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.sql.Date;
 
@@ -12,10 +13,12 @@ public class Dossier {
     private int dossierId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "appel_id")
     private Appel appel;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "technicien_id")
     private Technicien technicien;
 

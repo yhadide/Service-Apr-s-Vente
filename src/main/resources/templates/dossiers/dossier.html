@@ -161,10 +161,17 @@
                                        th:value="${#dates.format(dossier.dateCloture, 'yyyy-MM-dd')}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="statut" class="form-label">Statut</label>
-                                <input type="text" class="form-control" id="EditStatut" name="statut"
-                                       th:value="${dossier.statut}" required>
+                                <label class="form-label">Statut</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="inProgress" name="statut" value="En cours de traitement" th:checked="${dossier.statut == 'En cours de traitement'}" required>
+                                    <label class="form-check-label" for="inProgress">Dossier en cours de traitement</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="success" name="statut" value="Traité avec succès" th:checked="${dossier.statut == 'Traité avec succès'}" required>
+                                    <label class="form-check-label" for="success">Dossier traité avec succès</label>
+                                </div>
                             </div>
+
 
                             <div class="mb-3">
                                 <label for="technicien" class="form-label">Technicien</label>

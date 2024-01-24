@@ -1,5 +1,6 @@
 package com.dev.sav.service.implementation;
 
+import com.dev.sav.model.Appel;
 import com.dev.sav.model.Dossier;
 import com.dev.sav.repository.DossierRepository;
 import com.dev.sav.service.DossierService;
@@ -37,11 +38,12 @@ public class DossierServiceImpl implements DossierService {
     public void updateDossier(int id, Dossier updatedDossier) {
         Dossier existingDossier = dossierRepository.findById(id).orElse(null);
         if (existingDossier != null) {
-            // Update fields as needed
-            existingDossier.setDateOuverture(updatedDossier.getDateOuverture());
+
             existingDossier.setDateCloture(updatedDossier.getDateCloture());
-            existingDossier.setDescription(updatedDossier.getDescription());
             existingDossier.setStatut(updatedDossier.getStatut());
+            existingDossier.setTechnicien(updatedDossier.getTechnicien());
+            Appel appel = existingDossier.getAppel();
+            appel.setStatut(updatedDossier.getStatut());
 
             dossierRepository.save(existingDossier);
         }

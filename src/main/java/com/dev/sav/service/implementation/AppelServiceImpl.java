@@ -47,7 +47,6 @@ public class AppelServiceImpl implements AppelService {
             existingAppel.setDescription(updatedAppel.getDescription());
             existingAppel.setClient(updatedAppel.getClient());
             existingAppel.setArticle(updatedAppel.getArticle());
-
             existingAppel.setAppelId(updatedAppel.getAppelId());
 
             appelRepository.save(existingAppel);
@@ -69,9 +68,9 @@ public class AppelServiceImpl implements AppelService {
         dossier.setDateOuverture(savedAppel.getDateAppel());
         dossier.setStatut(savedAppel.getStatut());
         dossier.setDescription(savedAppel.getDescription());
-
         dossierRepository.save(dossier);
 
         return savedAppel;
     }
+
 }

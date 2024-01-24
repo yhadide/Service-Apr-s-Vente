@@ -31,6 +31,12 @@ public class DossierController {
         return "dossiers/dossier";
     }
 
+    @GetMapping("/dossiers-json")
+    @ResponseBody
+    public List<Dossier> getAllDossiersJson() {
+        return dossierService.getAllDossiers();
+    }
+
     @GetMapping("/{id}")
     public String getDossierById(@PathVariable int id, Model model) {
         Dossier dossier = dossierService.getDossierById(id);
@@ -67,8 +73,6 @@ public class DossierController {
 
     @PostMapping("/edit/{id}")
     public String updateDossier(@PathVariable int id, @ModelAttribute Dossier updatedDossier, Model model) {
-        List<Technicien> techniciens = technicienService.getAllTechniciens();
-        model.addAttribute("techniciens", techniciens);
         dossierService.updateDossier(id, updatedDossier);
         return "redirect:/dossiers";
     }

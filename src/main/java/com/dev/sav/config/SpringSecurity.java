@@ -31,20 +31,13 @@ public class SpringSecurity {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/client/registerclient").permitAll()
-                                .requestMatchers("/client/registerclient/save").permitAll()  // Allow client registration form submission
-                                .requestMatchers("/client/**").hasRole("CLIENT")  // Restrict access to client-specific pages to CLIENT role
-                                .requestMatchers("/appels/**").permitAll()
-                                .requestMatchers("/dossiers/**").hasRole("ADMIN")
-                                .requestMatchers("/techniciens/**").permitAll()
+                        authorize.requestMatchers("/register/**", "/client/registerclient", "/client/registerclient/save").permitAll()
                                 .requestMatchers("/index").permitAll()
-                                .requestMatchers("/articles/**").permitAll()
                                 .requestMatchers("/error").permitAll()
-                                .requestMatchers("/utilisateurs").hasRole("ADMIN")
-                                .requestMatchers("/client/listclients").hasRole("ADMIN")  // Restrict access to clients to ADMIN role
-                                .requestMatchers("/techniciens/techniciens-json").permitAll()
-
+                                .requestMatchers("/client/**").hasRole("CLIENT")
+                                .requestMatchers("/appels/**", "/articles/**").permitAll()
+                                .requestMatchers("/dossiers/**").hasRole("ADMIN")
+                                .requestMatchers("/techniciens/**","/utilisateurs").hasRole("ADMIN")
                 ).formLogin(form ->
                         form
                                 .loginPage("/login")

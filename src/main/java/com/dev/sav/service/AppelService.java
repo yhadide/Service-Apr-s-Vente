@@ -11,4 +11,5 @@ public interface AppelService {
     void updateAppel(int id, Appel updatedAppel);
     void deleteAppel(int id);
     Appel createAppelWithDossier(Appel appel);
+
 }
