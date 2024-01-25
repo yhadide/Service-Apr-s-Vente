@@ -4,77 +4,84 @@
 <head>
     <meta charset="UTF-8">
     <title>Service Après Vente</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity=""
+          crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity=""
+            crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" th:src="@{/js/functionalities.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
 </head>
 
-<body >
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-				                <div class="navbar-text" id="currentDateTime"></div>
-            </div>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/logout}">Déconnexion</a>
-                    </li>
-            </ul>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-text" id="currentDateTime"></div>
         </div>
-    </nav>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" th:href="@{/logout}">Déconnexion</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
 
- <div class="container">
-        <div class="row mt-4">
-            <!-- Dashboard Section -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
+<div class="container">
+    <div class="row mt-4">
+        <!-- Dashboard Section -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
                     <h5 class="card-title">Articles</h5>
                     <p class="card-text">Total Des articles: <span id="totalArticles"></span></p>
-                </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Techniciens</h5>
-                        <p class="card-text">Total des techniciens: <span id="totalTechniciens"></span></p>
-                    </div>
+                    <!-- Add canvas for the Articles chart -->
+                    <canvas id="articlesChart" width="200" height="100"></canvas>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Dossiers</h5>
-                        <p class="card-text">Total des dossiers: <span id="totalDossiers"></span></p>
-                    </div>
-                </div>
-            </div>
-
         </div>
-
-        <!-- Buttons Section -->
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <a class="btn btn-primary btn-sm" th:href="@{/articles}">Voir les articles</a>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Techniciens</h5>
+                    <p class="card-text">Total des techniciens: <span id="totalTechniciens"></span></p>
+                    <!-- Add canvas for the Techniciens chart -->
+                    <canvas id="techniciensChart" width="200" height="100"></canvas>
+                </div>
             </div>
-            <div class="col-md-4">
-                <a class="btn btn-primary btn-sm" th:href="@{/techniciens}">Voir les techniciens</a>
-            </div>
-            <div class="col-md-4">
-                <a class="btn btn-primary btn-sm" th:href="@{/dossiers}">Voir les dossiers</a>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Dossiers</h5>
+                    <p class="card-text">Total des dossiers: <span id="totalDossiers"></span></p>
+                    <!-- Add canvas for the Dossiers chart -->
+                    <canvas id="dossiersChart" width="200" height="100"></canvas>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Buttons Section -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <a class="btn btn-primary btn-sm" th:href="@{/articles}">Voir les articles</a>
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-primary btn-sm" th:href="@{/techniciens}">Voir les techniciens</a>
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-primary btn-sm" th:href="@{/dossiers}">Voir les dossiers</a>
+        </div>
+    </div>
+</div>
 
 </body>
 
@@ -82,6 +89,26 @@
 
 <script>
     $(document).ready(function () {
+        function createChart(id, data, label, backgroundColor, borderColor) {
+            var ctx = document.getElementById(id).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: label,
+                    datasets: [{
+                        label: 'Total',
+                        data: data,
+                        backgroundColor: backgroundColor,
+                        borderColor: borderColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    // Customize chart options as needed
+                }
+            });
+        }
+
         // Fetch the count of articles dynamically
         $.ajax({
             url: '/articles/articles-json',
@@ -90,12 +117,15 @@
             success: function (articles) {
                 // Update the total count in the span
                 $('#totalArticles').text(articles.length);
+                // Create chart for Articles
+                createChart('articlesChart', [articles.length], ['Articles'], 'rgba(75, 192, 192, 0.2)', 'rgba(75, 192, 192, 1)');
             },
             error: function (xhr, status, error) {
                 console.error('Error fetching articles:', xhr.status, xhr.statusText, error);
             }
         });
 
+        // Fetch the count of techniciens dynamically
         $.ajax({
             url: '/techniciens/techniciens-json',
             type: 'GET',
@@ -103,12 +133,15 @@
             success: function (techniciens) {
                 // Update the total count in the span
                 $('#totalTechniciens').text(techniciens.length);
+                // Create chart for Techniciens
+                createChart('techniciensChart', [techniciens.length], ['Techniciens'], 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)');
             },
             error: function (xhr, status, error) {
                 console.error('Error fetching techniciens:', xhr.status, xhr.statusText, error);
             }
         });
 
+// Fetch the count of dossiers dynamically
         $.ajax({
             url: '/dossiers/dossiers-json',
             type: 'GET',
@@ -116,11 +149,13 @@
             success: function (dossiers) {
                 // Update the total count in the span
                 $('#totalDossiers').text(dossiers.length);
+                // Create chart for Dossiers
+                createChart('dossiersChart', [dossiers.length], ['Dossiers'], 'rgba(255, 205, 86, 0.2)', 'rgba(255, 205, 86, 1)');
             },
             error: function (xhr, status, error) {
                 console.error('Error fetching dossiers:', xhr.status, xhr.statusText, error);
             }
         });
-    });
 
+    });
 </script>
