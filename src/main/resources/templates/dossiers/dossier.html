@@ -4,225 +4,130 @@
 <head>
     <meta charset="UTF-8">
     <title>List of Dossiers</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="" crossorigin="anonymous"></script>
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-            color: #495057;
-            font-family: 'Century Gothic', Futura, sans-serif;
-        }
-
-        .navbar {
-            background-color: #343a40;
-        }
-
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .navbar-toggler-icon {
-            background-color: #fff;
-        }
-
-        .container {
-            margin-top: 3rem;
-        }
-
-        .table {
-            margin-top: 2rem;
-        }
-
-        .modal-header {
-            background-color: #343a40;
-            color: #fff;
-            border-bottom: none;
-        }
-
-        .modal-content {
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        .form-label {
-            font-weight: bold;
-        }
-
-        .form-control,
-        .form-select {
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-
-        .btn-primary {
-            width: 100%;
-        }
-
-        .footer {
-            background-color: #343a40;
-            color: #fff;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity=""
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity=""
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/functionalities.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
 </head>
 
 <body>
 
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/logout}">Déconnexion</a>
-                    </li>
-                </ul>
-            </div>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Déconnexion</a>
+                </li>
+            </ul>
         </div>
-    </nav>
-
-    <div class="container mt-5">
-        <h2 class="text-center">Dossiers</h2>
-
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Appel</th>
-                <th>Technicien</th>
-                <th>Date Ouverture</th>
-                <th>Date Cloture</th>
-                <th>Statut</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr th:each="dossier, dossierStat : ${dossiers}">
-                <td th:text="${dossier?.dossierId}"></td>
-                <td th:text="${dossier?.appel?.client.prenom}"></td>
-                <td th:text="${dossier?.technicien?.nom}"></td>
-                <td th:text="${dossier?.dateOuverture != null ? #dates.format(dossier.dateOuverture, 'yyyy-MM-dd') : ''}"></td>
-                <td th:text="${dossier?.dateCloture != null ? #dates.format(dossier.dateCloture, 'yyyy-MM-dd') : ''}"></td>
-                <td th:text="${dossier?.statut}"></td>
-                <td th:text="${dossier?.description}"></td>
-                <td>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            th:attr="data-bs-target='#editDossierModal' + ${dossier?.dossierId}">Edit
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
+</nav>
+
+<div class="container mt-5">
+    <button onclick="goBack()">Go Back</button>
+    <h2 class="text-center">Dossiers</h2>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Appel</th>
+            <th>Technicien</th>
+            <th>Date Ouverture</th>
+            <th>Date Cloture</th>
+            <th>Statut</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="dossier, dossierStat : ${dossiers}">
+            <td th:text="${dossier?.dossierId}"></td>
+            <td th:text="${dossier?.appel?.client.prenom}"></td>
+            <td th:text="${dossier?.technicien?.nom}"></td>
+            <td th:text="${dossier?.dateOuverture != null ? #dates.format(dossier.dateOuverture, 'yyyy-MM-dd') : ''}"></td>
+            <td th:text="${dossier?.dateCloture != null ? #dates.format(dossier.dateCloture, 'yyyy-MM-dd') : ''}"></td>
+            <td th:text="${dossier?.statut}"></td>
+            <td th:text="${dossier?.description}"></td>
+            <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        th:attr="data-bs-target='#editDossierModal' + ${dossier?.dossierId}">Edit
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 
-    <div th:each="dossier, dossierStat : ${dossiers}">
-        <div class="modal fade editDossierModal" th:id="'editDossierModal' + ${dossier?.dossierId}" tabindex="-1"
-             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleEditModalLabel">Modifier le dossier</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form th:action="@{'/dossiers/edit/' + ${dossier.dossierId}}" method="post">
-                            <div class="mb-3">
-                                <label for="dateOuverture" class="form-label">Date d'ouverture</label>
-                                <input type="date" class="form-control" id="EditDateOuverture" name="dateOuverture"
-                                       th:value="${#dates.format(dossier.dateOuverture, 'yyyy-MM-dd')}" readonly disabled required>
+<div th:each="dossier, dossierStat : ${dossiers}">
+    <div class="modal fade editDossierModal" th:id="'editDossierModal' + ${dossier?.dossierId}" tabindex="-1"
+         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleEditModalLabel">Modifier le dossier</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{'/dossiers/edit/' + ${dossier.dossierId}}" method="post">
+                        <div class="mb-3">
+                            <label for="dateOuverture" class="form-label">Date d'ouverture</label>
+                            <input type="date" class="form-control" id="EditDateOuverture" name="dateOuverture"
+                                   th:value="${#dates.format(dossier.dateOuverture, 'yyyy-MM-dd')}" readonly disabled
+                                   required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateCloture" class="form-label">Date de clôture</label>
+                            <input type="date" class="form-control" id="EditDateCloture" name="dateCloture"
+                                   th:value="${#dates.format(dossier.dateCloture, 'yyyy-MM-dd')}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Statut</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="inProgress" name="statut"
+                                       value="En cours de traitement"
+                                       th:checked="${dossier.statut == 'En cours de traitement'}" required>
+                                <label class="form-check-label" for="inProgress">Dossier en cours de traitement</label>
                             </div>
-                            <div class="mb-3">
-                                <label for="dateCloture" class="form-label">Date de clôture</label>
-                                <input type="date" class="form-control" id="EditDateCloture" name="dateCloture"
-                                       th:value="${#dates.format(dossier.dateCloture, 'yyyy-MM-dd')}" required>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="success" name="statut"
+                                       value="Traité avec succès" th:checked="${dossier.statut == 'Traité avec succès'}"
+                                       required>
+                                <label class="form-check-label" for="success">Dossier traité avec succès</label>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Statut</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="inProgress" name="statut" value="En cours de traitement" th:checked="${dossier.statut == 'En cours de traitement'}" required>
-                                    <label class="form-check-label" for="inProgress">Dossier en cours de traitement</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="success" name="statut" value="Traité avec succès" th:checked="${dossier.statut == 'Traité avec succès'}" required>
-                                    <label class="form-check-label" for="success">Dossier traité avec succès</label>
-                                </div>
-                            </div>
+                        </div>
 
 
-                            <div class="mb-3">
-                                <label for="technicien" class="form-label">Technicien</label>
-                                <select class="form-select" id="technicien" name="technicien" required>
+                        <div class="mb-3">
+                            <label for="technicien" class="form-label">Technicien</label>
+                            <select class="form-select" id="technicien" name="technicien" required>
 
-                                </select>
-                            </div>
+                            </select>
+                        </div>
 
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </form>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 </body>
 </html>
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    document.addEventListener('DOMContentLoaded', function () {
-
-        fetch('/techniciens/techniciens-json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(techniciensData => {
-
-                const editDossierModals = document.querySelectorAll('.editDossierModal');
-
-                editDossierModals.forEach(modal => {
-                    const technicienSelect = modal.querySelector('#technicien');
-
-                    technicienSelect.innerHTML = '';
-
-                    techniciensData.forEach(technicien => {
-                        const technicienOption = `<option value="${technicien.idTechnicien}">${technicien.nom} ${technicien.prenom} - ${technicien.specialite}</option>`;
-                        technicienSelect.insertAdjacentHTML('beforeend', technicienOption);
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('Error during fetch operation:', error);
-            });
-    });
-
-    /*]]>*/
-</script>
 

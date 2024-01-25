@@ -9,61 +9,8 @@
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity=""
             crossorigin="anonymous"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-            color: #495057;
-            font-family: 'Century Gothic', Futura, sans-serif;
-        }
-
-        .navbar {
-            background-color: #343a40;
-        }
-
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .navbar-toggler-icon {
-            background-color: #fff;
-        }
-
-        .container {
-            margin-top: 3rem;
-        }
-
-        .btn-primary {
-            margin-right: 10px;
-        }
-
-        .table {
-            margin-top: 20px;
-        }
-
-        .footer {
-            background-color: #343a40;
-            color: #fff;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        /* Modal styling */
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .modal-footer {
-            padding: 20px;
-        }
-    </style>
+    <script type="text/javascript" th:src="@{/js/functionalities.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
 </head>
 
 <body>
@@ -178,33 +125,6 @@
 </div>
 
 
-
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/articles/articles-json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data && data.length > 0) {
-                        for (var i = 0; i < data.length; i++) {
-                            var articleOption = '<option value="' + data[i].reference + '">' + data[i].nom + '</option>';
-                            document.getElementById('article').insertAdjacentHTML('beforeend', articleOption);
-                        }
-                    } else {
-                        console.error("No articles found or 'data' is null.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error during fetch operation:', error);
-                });
-        });
-        /*]]>*/
-    </script>
 
 </body>
 
