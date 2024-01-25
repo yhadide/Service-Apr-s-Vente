@@ -49,6 +49,22 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public void updateClient(int clientId, ClientDto clientDto) {
+
+        Client client = findClientByEmail(clientDto.getEmail());
+        if (clientDto.getMotDePasse() != null && !clientDto.getMotDePasse().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(clientDto.getMotDePasse());
+            client.setMotDePasse(encodedPassword);
+        }
+        client.setNom(clientDto.getNom());
+        client.setPrenom(clientDto.getPrenom());
+        client.setAdresse(clientDto.getAdresse());
+        client.setEmail(clientDto.getEmail());
+        client.setTelephone(clientDto.getTelephone());
+        clientRepository.save(client);
+    }
+
+    @Override
     public Client getClientById(int noClient) {
         return clientRepository.findById(noClient).orElse(null);
     }

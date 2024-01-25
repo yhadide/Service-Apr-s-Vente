@@ -61,5 +61,13 @@ public class ClientController {
         }
     }
 
+    @PostMapping("/update")
+    public String updateClient(@RequestParam int clientId, @ModelAttribute ClientDto clientDto) {
+        clientService.updateClient(clientId, clientDto);
+        return "redirect:/client/" + clientId;
+    }
+
+
+
 
 }

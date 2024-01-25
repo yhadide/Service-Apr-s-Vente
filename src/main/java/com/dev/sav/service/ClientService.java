@@ -9,7 +9,7 @@ import java.util.List;
         void saveClient(ClientDto clientDto);
         Client getClientById(int noClient);
         Client findClientByEmail(String email);
-
+        void updateClient(int clientId, ClientDto clientDto);
         List<ClientDto> findAllClients();
 
     }
