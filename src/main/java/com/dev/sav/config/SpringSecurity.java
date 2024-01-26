@@ -39,7 +39,7 @@ public class SpringSecurity {
                                 .requestMatchers("/client/**").hasRole("CLIENT")
                                 .requestMatchers("/appels/**", "/articles/**").permitAll()
                                 .requestMatchers("/dossiers/**").hasRole("ADMIN")
-                                .requestMatchers("/techniciens").hasRole("ADMIN")
+//                                .requestMatchers("/techniciens").hasRole("ADMIN")
                                 .requestMatchers("/utilisateurs").hasRole("ADMIN")
                                 .requestMatchers("/js/**", "/styles/**").permitAll()
                 ).formLogin(form ->
@@ -59,7 +59,7 @@ public class SpringSecurity {
                                         CustomTechnicienDetails technicienDetails = (CustomTechnicienDetails) authentication.getPrincipal();
                                         int technicienId = technicienDetails.getTechnicien().getIdTechnicien();
                                         System.out.println("User has ROLE_TECHNICIEN with ID: " + technicienId);
-                                        response.sendRedirect("/technicien/" + technicienId);
+                                        response.sendRedirect("/techniciens/" + technicienId);
                                     } else {
                                         throw new IllegalStateException("Unexpected role");
                                     }
