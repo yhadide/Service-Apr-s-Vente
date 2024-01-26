@@ -1,10 +1,12 @@
 package com.dev.sav.controller;
 
+import com.dev.sav.dto.TechnicienDto;
 import com.dev.sav.model.Technicien;
 import com.dev.sav.service.TechnicienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +34,29 @@ public class TechnicienController {
         return techniciens;
     }
 
+    @GetMapping("/registertechnicien")
+    public String showTechnicienForm(Model model) {
+        TechnicienDto technicienDto = new TechnicienDto();
+        model.addAttribute("technicienDto", technicienDto);
+        return "techniciens/registertechnicien";
+    }
+
+    @PostMapping("/registertechnicien/add")
+    public String technicienRegistration(@ModelAttribute("technicienDto") TechnicienDto technicienDto,
+                                 BindingResult result,
+                                 Model model) {
+        Technicien existingTechnicien  = technicienService.findByEmail(technicienDto.getEmail());
+        if(existingTechnicien != null && !existingTechnicien.getEmail().isEmpty()){
+            result.rejectValue("email", null, "Il existe déjà un compte enregistré avec la même adresse e-mail");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("technicienDto", technicienDto);
+            return "techniciens/registertechnicien";
+        }
+        technicienService.saveTechnicien(technicienDto);
+        return "redirect:/techniciens/registertechnicien?success";
+    }
+
     @GetMapping("/{id}")
     public String getTechnicienById(@PathVariable int id, Model model) {
         Technicien technicien = technicienService.getTechnicienById(id);
@@ -42,19 +67,6 @@ public class TechnicienController {
             return "error";
         }
     }
-
-    @GetMapping("/add")
-    public String showTechnicienForm(Model model) {
-        model.addAttribute("technicien", new Technicien());
-        return "techniciens/technicien";
-    }
-
-    @PostMapping("/add")
-    public String saveTechnicien(@ModelAttribute Technicien technicien) {
-        technicienService.saveTechnicien(technicien);
-        return "redirect:/techniciens";
-    }
-
     @GetMapping("/edit/{id}")
     public String showEditTechnicienForm(@PathVariable int id, Model model) {
         Technicien technicien = technicienService.getTechnicienById(id);

@@ -1,6 +1,7 @@
 package com.dev.sav.config;
 
 
+import com.dev.sav.security.CustomTechnicienDetails;
 import com.dev.sav.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,30 +32,38 @@ public class SpringSecurity {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/register/**", "/client/registerclient", "/client/registerclient/save").permitAll()
+                        authorize.requestMatchers("/register/**", "/client/registerclient", "/client/registerclient/save","/techniciens/registertechnicien","/techniciens/registertechnicien/add").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/error").permitAll()
+                                .requestMatchers("/techniciens/**").hasRole("TECHNICIEN")
                                 .requestMatchers("/client/**").hasRole("CLIENT")
                                 .requestMatchers("/appels/**", "/articles/**").permitAll()
                                 .requestMatchers("/dossiers/**").hasRole("ADMIN")
-                                .requestMatchers("/techniciens/**","/utilisateurs").hasRole("ADMIN")
-                                .requestMatchers("/js/**","/styles/**").permitAll()
+                                .requestMatchers("/techniciens").hasRole("ADMIN")
+                                .requestMatchers("/utilisateurs").hasRole("ADMIN")
+                                .requestMatchers("/js/**", "/styles/**").permitAll()
                 ).formLogin(form ->
                         form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
                                 .successHandler((request, response, authentication) -> {
-                                    if (authentication.getAuthorities().stream()
-                                            .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))) {
+                                    if (authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))) {
+                                        System.out.println("User has ROLE_ADMIN");
                                         response.sendRedirect("/utilisateurs");
-                                    } else if (authentication.getAuthorities().stream()
-                                            .anyMatch(authority -> authority.getAuthority().equals("ROLE_CLIENT"))) {
+                                    } else if (authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_CLIENT"))) {
                                         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
                                         int clientId = userDetails.getClient().getNoClient();
+                                        System.out.println("User has ROLE_CLIENT with ID: " + clientId);
                                         response.sendRedirect("/client/" + clientId);
+                                    } else if (authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_TECHNICIEN"))) {
+                                        CustomTechnicienDetails technicienDetails = (CustomTechnicienDetails) authentication.getPrincipal();
+                                        int technicienId = technicienDetails.getTechnicien().getIdTechnicien();
+                                        System.out.println("User has ROLE_TECHNICIEN with ID: " + technicienId);
+                                        response.sendRedirect("/technicien/" + technicienId);
                                     } else {
                                         throw new IllegalStateException("Unexpected role");
                                     }
+
                                 })
                                 .permitAll()
                 ).logout(

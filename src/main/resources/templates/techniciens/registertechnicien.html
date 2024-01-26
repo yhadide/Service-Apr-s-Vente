@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Service Après Vente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/functionalities.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        </div>
+    </div>
+</nav>
+
+<br /><br /><br />
+
+<div class="row col-md-8 offset-md-2">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Inscription Technicien</h2>
+        </div>
+        <div th:if="${param.success}" class="alert alert-info text-center">
+            Vous vous êtes inscrit avec succès!
+        </div>
+        <div class="card-body">
+            <form method="post" role="form" th:action="@{/techniciens/registertechnicien/add}" th:object="${technicienDto}">
+                <div class="form-group mb-3">
+                    <label class="form-label">Prénom</label>
+                    <input class="form-control" id="prenom" name="prenom" placeholder="Entrez votre prénom"
+                           th:field="*{prenom}" type="text" />
+                    <p th:errors="*{prenom}" class="text-danger" th:if="${#fields.hasErrors('prenom')}"></p>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">Nom de famille</label>
+                    <input class="form-control" id="nom" name="nom" placeholder="Entrez votre nom de famille"
+                           th:field="*{nom}" type="text" />
+                    <p th:errors="*{nom}" class="text-danger" th:if="${#fields.hasErrors('nom')}"></p>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">Email</label>
+                    <input class="form-control" id="email" name="email" placeholder="Entrez votre adresse e-mail"
+                           th:field="*{email}" type="email" />
+                    <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">Spécialité</label>
+                    <input class="form-control" id="specialite" name="specialite" placeholder="Entrez votre spécialité"
+                           th:field="*{specialite}" type="text" />
+                    <p th:errors="*{specialite}" class="text-danger" th:if="${#fields.hasErrors('specialite')}"></p>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">Mot de passe</label>
+                    <input class="form-control" id="motDePasse" name="motDePasse"
+                           placeholder="Entrez votre mot de passe" th:field="*{motDePasse}" type="password" />
+                    <p th:errors="*{motDePasse}" class="text-danger"
+                       th:if="${#fields.hasErrors('motDePasse')}"></p>
+                </div>
+
+                <div class="form-group text-center">
+                    <button class="btn btn-primary" type="submit">S'inscrire</button>
+                    <br><br>
+                    <span>Déjà inscrit? <a th:href="@{/login}">Connectez-vous ici</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

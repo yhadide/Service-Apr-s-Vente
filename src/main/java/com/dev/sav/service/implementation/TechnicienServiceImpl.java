@@ -1,18 +1,32 @@
 package com.dev.sav.service.implementation;
 
+import com.dev.sav.dto.TechnicienDto;
+import com.dev.sav.model.Role;
 import com.dev.sav.model.Technicien;
+import com.dev.sav.repository.RoleRepository;
 import com.dev.sav.repository.TechnicienRepository;
 import com.dev.sav.service.TechnicienService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Transactional
 public class TechnicienServiceImpl implements TechnicienService {
-    @Autowired
+
     private TechnicienRepository technicienRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+    @Autowired
+    public TechnicienServiceImpl(PasswordEncoder passwordEncoder, TechnicienRepository technicienRepository, RoleRepository roleRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.technicienRepository = technicienRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public List<Technicien> getAllTechniciens() {
@@ -25,7 +39,22 @@ public class TechnicienServiceImpl implements TechnicienService {
     }
 
     @Override
-    public void saveTechnicien(Technicien technicien) {
+    public Technicien findByEmail(String email) {
+        return technicienRepository.findByEmail(email);
+    }
+
+    @Override
+    public void saveTechnicien(TechnicienDto technicienDto) {
+        Technicien technicien = new Technicien();
+        technicien.setNom(technicienDto.getNom());
+        technicien.setPrenom(technicienDto.getPrenom());
+        technicien.setEmail(technicienDto.getEmail());
+        technicien.setSpecialite(technicienDto.getSpecialite());
+        technicien.setMotDePasse(passwordEncoder.encode(technicienDto.getMotDePasse()));
+
+        Role role = roleRepository.getOrCreateRole("ROLE_TECHNICIEN");
+        technicien.setRoles(Arrays.asList(role));
+
         technicienRepository.save(technicien);
     }
 
@@ -46,6 +75,6 @@ public class TechnicienServiceImpl implements TechnicienService {
         technicienRepository.deleteById(id);
     }
     public long getTechnicienCount() {
-        return technicienRepository.count(); // Assuming count method in your repository
+        return technicienRepository.count();
     }
 }

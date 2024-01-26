@@ -1,5 +1,6 @@
 package com.dev.sav.service;
 
+import com.dev.sav.dto.TechnicienDto;
 import com.dev.sav.model.Technicien;
 
 import java.util.List;
@@ -7,7 +8,8 @@ import java.util.List;
 public interface TechnicienService {
     List<Technicien> getAllTechniciens();
     Technicien getTechnicienById(int id);
-    void saveTechnicien(Technicien technicien);
+    Technicien findByEmail(String email);
+    void saveTechnicien(TechnicienDto technicienDto);
     void updateTechnicien(int id, Technicien updatedTechnicien);
     void deleteTechnicien(int id);
     long getTechnicienCount();

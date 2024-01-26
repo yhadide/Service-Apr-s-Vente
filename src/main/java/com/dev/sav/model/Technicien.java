@@ -1,6 +1,8 @@
 package com.dev.sav.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Table(name = "TECHNICIEN")
@@ -18,18 +20,27 @@ public class Technicien {
 
     @Column(name = "specialite")
     private String specialite;
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "motDePasse")
+    @JsonIgnore
+    private String motDePasse;
 
     @OneToMany(mappedBy = "technicien", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Dossier> dossiers;
 
-    public Technicien(int idTechnicien, String nom,String prenom, String specialite, List<Dossier> dossiers) {
+    public Technicien(int idTechnicien, String nom, String prenom, String specialite, String email, String motDePasse, List<Dossier> dossiers) {
         this.idTechnicien = idTechnicien;
         this.nom = nom;
-        this.specialite = specialite;
-        this.dossiers = dossiers;
         this.prenom = prenom;
+        this.specialite = specialite;
+        this.email = email;
+        this.motDePasse = motDePasse;
+        this.dossiers = dossiers;
     }
+
     public Technicien() {}
 
     public int getIdTechnicien() {
@@ -70,5 +81,35 @@ public class Technicien {
 
     public void setDossiers(List<Dossier> dossiers) {
         this.dossiers = dossiers;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+    @ManyToMany(fetch = FetchType.EAGER)  // Assuming Many-to-Many relationship with roles
+    @JoinTable(
+            name = "technicien_roles",
+            joinColumns = @JoinColumn(name = "technicien_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
