@@ -35,6 +35,8 @@ public class SpringSecurity {
                         authorize.requestMatchers("/register/**", "/client/registerclient", "/client/registerclient/save","/techniciens/registertechnicien","/techniciens/registertechnicien/add").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/error").permitAll()
+                                .requestMatchers("/techniciens/techniciens-json").permitAll()
+                                .requestMatchers("/techniciens/technicienslist").permitAll()
                                 .requestMatchers("/techniciens/**").hasRole("TECHNICIEN")
                                 .requestMatchers("/client/**").hasRole("CLIENT")
                                 .requestMatchers("/appels/**", "/articles/**").permitAll()

@@ -33,121 +33,100 @@
     </div>
 </nav>
 
-<!--<div class="container">-->
-<!--    <button onclick="goBack()">Go Back</button>-->
-<!--    <div class="row col-md-10">-->
-<!--        <h2 class="text-center">Techniciens</h2>-->
-<!--    </div>-->
-<!--    <table class="table table-bordered table-hover">-->
-<!--        <thead class="table-dark">-->
-<!--        <tr>-->
-<!--            <th>ID Technicien</th>-->
-<!--            <th>Nom</th>-->
-<!--            <th>Prénom</th>-->
-<!--            <th>Spécialité</th>-->
-<!--            <th>Actions</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr th:each="technicien : ${techniciens}">-->
-<!--            <td th:text="${technicien.idTechnicien}"></td>-->
-<!--            <td th:text="${technicien.nom}"></td>-->
-<!--            <td th:text="${technicien.prenom}"></td>-->
-<!--            <td th:text="${technicien.specialite}"></td>-->
-<!--            <td>-->
-<!--                <div class="btn-group" role="group">-->
-<!--                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"-->
-<!--                            th:attr="data-bs-target='#editTechnicienModal' + ${technicien?.idTechnicien}">Edit-->
-<!--                    </button>-->
-<!--                    <form th:action="@{'/techniciens/' + ${technicien.idTechnicien}}" method="post"-->
-<!--                          onsubmit="return confirm('Are you sure you want to delete?');">-->
-<!--                        <input type="hidden" name="_method" value="delete"/>-->
-<!--                        <button type="submit" class="btn btn-danger">Delete</button>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-<!--    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ajouterTechnicienModal">-->
-<!--        Ajouter un technicien-->
-<!--    </button>-->
-<!--</div>-->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col">
+            <h2>Technicien Information</h2>
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Spécialité</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${technicien.nom}"></td>
+                    <td th:text="${technicien.prenom}"></td>
+                    <td th:text="${technicien.specialite}"></td>
+                    <td th:text="${technicien.email}"></td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditTechnicienModal">Edit</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <h2>Dossiers</h2>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th>Statut</th>
+                    <th>Description</th>
+                    <th>Article</th> <!-- If you want to extend the appel attribute to show article -->
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Loop through the list of dossiers -->
+                <tr th:each="dossier : ${technicien.dossiers}">
+                    <td th:text="${dossier.statut}"></td>
+                    <td th:text="${dossier.description}"></td>
+                    <td th:text="${dossier.appel.article.nom + ' - ' + dossier.appel.article.reference}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-<!--&lt;!&ndash; Ajouter Technicien Modal &ndash;&gt;-->
-<!--<div class="modal fade" id="ajouterTechnicienModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"-->
-<!--     aria-hidden="true">-->
-<!--    <div class="modal-dialog" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title" id="exampleModalLabel">Ajouter un technicien</h5>-->
-<!--                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">-->
-<!--                    <span aria-hidden="true">&times;</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                <form action="/techniciens/add" method="post">-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="nom" class="form-label">Nom</label>-->
-<!--                        <input type="text" class="form-control" id="nom" name="nom" required>-->
-<!--                    </div>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="prenom" class="form-label">Prénom</label>-->
-<!--                        <textarea class="form-control" id="prenom" name="prenom" required></textarea>-->
-<!--                    </div>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="specialite" class="form-label">Spécialité</label>-->
-<!--                        <input class="form-control" id="specialite" name="specialite" required>-->
-<!--                    </div>-->
-<!--                    <div class="modal-footer">-->
-<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>-->
-<!--                        <button type="submit" class="btn btn-primary">Ajouter</button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+<div class="modal fade" id="EditTechnicienModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Edit Technicien</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/techniciens/edit" method="post">
+                    <div class="mb-3">
+                        <label for="nom" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="nom" name="nom" th:value="${technicien.nom}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prenom" class="form-label">Prénom</label>
+                        <input type="text" class="form-control" id="prenom" name="prenom" th:value="${technicien.prenom}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="specialite" class="form-label">Spécialité</label>
+                        <input type="text" class="form-control" id="specialite" name="specialite" th:value="${technicien.specialite}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" th:value="${technicien.email}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="motDePasse" class="form-label">Mot de Passe</label>
+                        <input type="password" class="form-control" id="motDePasse" name="motDePasse" required>
+                    </div>
+                    <input type="hidden" name="id" id="id" th:value="${technicien.idTechnicien}" readonly>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-<!--&lt;!&ndash; Edit Modals &ndash;&gt;-->
-<!--<div th:each="technicien : ${techniciens}">-->
-<!--    <div class="modal fade" th:id="'editTechnicienModal' + ${technicien?.idTechnicien}" tabindex="-1" role="dialog"-->
-<!--         aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--        <div class="modal-dialog" role="document">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h5 class="modal-title" id="exampleEditModalLabel">Modifier technicien</h5>-->
-<!--                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                <div class="modal-body">-->
-<!--                    <form th:action="@{'/techniciens/edit/' + ${technicien.idTechnicien}}" method="post">-->
-<!--                        <div class="mb-3">-->
-<!--                            <label for="nom" class="form-label">Nom</label>-->
-<!--                            <input type="text" class="form-control" id="EditNom" name="nom" th:value="${technicien.nom}"-->
-<!--                                   required>-->
-<!--                        </div>-->
-<!--                        <div class="mb-3">-->
-<!--                            <label for="prenom" class="form-label">Prénom</label>-->
-<!--                            <textarea class="form-control" id="EditPrenom" name="prenom" required-->
-<!--                                      th:text="${technicien.prenom}"></textarea>-->
-<!--                        </div>-->
-<!--                        <div class="mb-3">-->
-<!--                            <label for="specialite" class="form-label">Spécialité</label>-->
-<!--                            <input type="text" class="form-control" id="EditSpecialite" name="specialite"-->
-<!--                                   th:value="${technicien.specialite}" required>-->
-<!--                        </div>-->
-<!--                        <div class="modal-footer">-->
-<!--                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>-->
-<!--                            <button type="submit" class="btn btn-primary">Modifier</button>-->
-<!--                        </div>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 
 </body>

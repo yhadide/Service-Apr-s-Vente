@@ -10,7 +10,7 @@ public interface TechnicienService {
     Technicien getTechnicienById(int id);
     Technicien findByEmail(String email);
     void saveTechnicien(TechnicienDto technicienDto);
-    void updateTechnicien(int id, Technicien updatedTechnicien);
+    void updateTechnicien(int technicienId, TechnicienDto technicienDto);
     void deleteTechnicien(int id);
     long getTechnicienCount();
 

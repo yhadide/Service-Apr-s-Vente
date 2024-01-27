@@ -40,7 +40,7 @@ public class ClientController {
         }
 
         clientService.saveClient(clientDto);
-        return "redirect:client/registerclient?success";
+        return "redirect:/client/registerclient?success";
     }
 
     @GetMapping()

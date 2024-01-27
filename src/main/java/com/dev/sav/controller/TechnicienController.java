@@ -18,13 +18,13 @@ public class TechnicienController {
     @Autowired
     private TechnicienService technicienService;
 
-    @GetMapping
+    @GetMapping("technicienslist")
     public String getAllTechniciens(Model model) {
         List<Technicien> techniciens = technicienService.getAllTechniciens();
         model.addAttribute("techniciens", techniciens);
         model.addAttribute("technicienCount", technicienService.getTechnicienCount());
         model.addAttribute("techniciens", techniciens);
-        return "techniciens/technicien";
+        return "techniciens/technicienslist";
     
     }
     @GetMapping("/techniciens-json")
@@ -67,26 +67,11 @@ public class TechnicienController {
             return "error";
         }
     }
-    @GetMapping("/edit/{id}")
-    public String showEditTechnicienForm(@PathVariable int id, Model model) {
-        Technicien technicien = technicienService.getTechnicienById(id);
-        if (technicien != null) {
-            model.addAttribute("technicien", technicien);
-            return "techniciens/technicien";
-        } else {
-            return "error";
-        }
+
+    @PostMapping("/edit")
+    public String updateTechnicien(@RequestParam int id, @ModelAttribute TechnicienDto technicienDto) {
+        technicienService.updateTechnicien(id, technicienDto);
+        return "redirect:/techniciens/" + id;
     }
 
-    @PostMapping("/edit/{id}")
-    public String updateTechnicien(@PathVariable int id, @ModelAttribute Technicien updatedTechnicien) {
-        technicienService.updateTechnicien(id, updatedTechnicien);
-        return "redirect:/techniciens";
-    }
-
-    @PostMapping("/{id}")
-    public String deleteTechnicien(@PathVariable int id) {
-        technicienService.deleteTechnicien(id);
-        return "redirect:/techniciens";
-    }
 }

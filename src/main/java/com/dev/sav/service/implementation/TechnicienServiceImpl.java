@@ -1,6 +1,8 @@
 package com.dev.sav.service.implementation;
 
 import com.dev.sav.dto.TechnicienDto;
+import com.dev.sav.dto.TechnicienDto;
+import com.dev.sav.model.Technicien;
 import com.dev.sav.model.Role;
 import com.dev.sav.model.Technicien;
 import com.dev.sav.repository.RoleRepository;
@@ -59,15 +61,18 @@ public class TechnicienServiceImpl implements TechnicienService {
     }
 
     @Override
-    public void updateTechnicien(int id, Technicien updatedTechnicien) {
-        Technicien existingTechnicien = technicienRepository.findById(id).orElse(null);
-        if (existingTechnicien != null) {
-            existingTechnicien.setNom(updatedTechnicien.getNom());
-            existingTechnicien.setPrenom(updatedTechnicien.getPrenom());
-            existingTechnicien.setSpecialite(updatedTechnicien.getSpecialite());
+    public void updateTechnicien(int technicienId, TechnicienDto technicienDto) {
 
-            technicienRepository.save(existingTechnicien);
+        Technicien technicien = findByEmail(technicienDto.getEmail());
+        if (technicienDto.getMotDePasse() != null && !technicienDto.getMotDePasse().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(technicienDto.getMotDePasse());
+            technicien.setMotDePasse(encodedPassword);
         }
+        technicien.setNom(technicienDto.getNom());
+        technicien.setPrenom(technicienDto.getPrenom());
+        technicien.setEmail(technicienDto.getEmail());
+        technicien.setSpecialite(technicienDto.getSpecialite());
+        technicienRepository.save(technicien);
     }
 
     @Override
