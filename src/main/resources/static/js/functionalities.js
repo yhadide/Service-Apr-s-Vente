@@ -2,6 +2,31 @@ function goBack() {
     window.history.back();
 }
 
+function searchDossier() {
+    var dossierId = document.getElementById("dossierIdInput").value;
+    if (dossierId.trim() === "") {
+        alert("Please provide an ID");
+        return;
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/dossiers/search?id=" + dossierId);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            // If dossier is found, update the page content
+            document.open();
+            document.write(xhr.responseText);
+            document.close();
+        } else {
+            // If dossier is not found, display an alert
+            alert("Dossier not found");
+        }
+    };
+    xhr.send();
+}
+
+
+
+
 // articles js
 
 /*<![CDATA[*/

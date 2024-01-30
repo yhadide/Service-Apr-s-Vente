@@ -1,6 +1,7 @@
 package com.dev.sav.controller;
 
 import com.dev.sav.dto.ClientDto;
+import com.dev.sav.model.Article;
 import com.dev.sav.model.Client;
 import com.dev.sav.service.ClientService;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,13 @@ public class ClientController {
 
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
+    }
+
+    @GetMapping("/clients-json")
+    @ResponseBody
+    public List<ClientDto> getAllClientsJson() {
+        List<ClientDto> clients = clientService.findAllClients();
+        return clients;
     }
     @GetMapping("/registerclient")
     public String showClientRegistrationForm(Model model) {

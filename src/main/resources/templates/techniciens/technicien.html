@@ -33,7 +33,7 @@
     </div>
 </nav>
 
-<div class="container mt-4">
+<div class="container mt-4" th:if="${technicien.isActive}">
     <div class="row">
         <div class="col">
             <h2>Technicien Information</h2>
@@ -68,22 +68,37 @@
                 <thead class="table-dark">
                 <tr>
                     <th>Statut</th>
+                    <th>Technicien Statuts</th>
                     <th>Description</th>
-                    <th>Article</th> <!-- If you want to extend the appel attribute to show article -->
+                    <th>Article</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <!-- Loop through the list of dossiers -->
                 <tr th:each="dossier : ${technicien.dossiers}">
                     <td th:text="${dossier.statut}"></td>
+                    <td th:text="${dossier.technicienstatuts}"></td>
                     <td th:text="${dossier.description}"></td>
                     <td th:text="${dossier.appel.article.nom + ' - ' + dossier.appel.article.reference}"></td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditDossierModal" th:attr="data-dossier-id=${dossier.dossierId}">
+                            Edit
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<div class="container mt-4 d-flex justify-content-center align-items-center" th:unless="${technicien.isActive}" style="height: 20vh;">
+    <div class="text-center" style="color: red;">
+        <p>Votre compte n'est pas activé. Veuillez contacter l'administrateur.</p>
+    </div>
+</div>
+
 
 <div class="modal fade" id="EditTechnicienModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -126,6 +141,30 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="EditDossierModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">Edit dossier</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/dossiers/update" method="post">
+                    <input type="hidden" name="DossierId" th:value="${dossier?.dossierId}">
+                    <div class="form-group">
+                        <label for="technicianStatus">Technician Status</label>
+                        <input type="text" class="form-control" id="technicianStatus" name="technicienstatuts" th:value="${dossier?.technicienstatuts}" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 

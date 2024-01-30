@@ -26,12 +26,14 @@ public class Technicien {
     @Column(name = "motDePasse")
     @JsonIgnore
     private String motDePasse;
+    @Column(name = "isActive")
+    private boolean isActive;
 
     @OneToMany(mappedBy = "technicien", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Dossier> dossiers;
 
-    public Technicien(int idTechnicien, String nom, String prenom, String specialite, String email, String motDePasse, List<Dossier> dossiers) {
+    public Technicien(int idTechnicien, String nom, String prenom, String specialite, String email, String motDePasse, List<Dossier> dossiers,boolean isActive) {
         this.idTechnicien = idTechnicien;
         this.nom = nom;
         this.prenom = prenom;
@@ -39,6 +41,7 @@ public class Technicien {
         this.email = email;
         this.motDePasse = motDePasse;
         this.dossiers = dossiers;
+        this.isActive = isActive;
     }
 
     public Technicien() {}
@@ -111,5 +114,13 @@ public class Technicien {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

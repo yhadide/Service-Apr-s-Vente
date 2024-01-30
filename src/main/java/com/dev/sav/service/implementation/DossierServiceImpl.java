@@ -48,6 +48,14 @@ public class DossierServiceImpl implements DossierService {
             dossierRepository.save(existingDossier);
         }
     }
+    @Override
+    public void updateDossierByTechnicien(int DossierId, Dossier updatedDossier) {
+        Dossier existingDossier = dossierRepository.findById(DossierId).orElse(null);
+        if (existingDossier != null) {
+            existingDossier.setTechnicienstatuts(updatedDossier.getTechnicienstatuts());
+            dossierRepository.save(existingDossier);
+        }
+    }
 
     @Override
     public void deleteDossier(int id) {

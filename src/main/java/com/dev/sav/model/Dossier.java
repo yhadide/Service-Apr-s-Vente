@@ -2,6 +2,7 @@ package com.dev.sav.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.sql.Date;
 
 @Entity
@@ -31,10 +32,13 @@ public class Dossier {
     @Column(name = "statut")
     private String statut;
 
+    @Column(name = "technicienstatut")
+    private String technicienstatuts;
+
     @Column(name = "description")
     private String description;
 
-    public Dossier(int dossierId, Appel appel, Technicien technicien, Date dateOuverture, Date dateCloture, String statut, String description) {
+    public Dossier(int dossierId, Appel appel, Technicien technicien, Date dateOuverture, Date dateCloture, String statut, String description, String technicienstatuts) {
         this.dossierId = dossierId;
         this.appel = appel;
         this.technicien = technicien;
@@ -42,9 +46,11 @@ public class Dossier {
         this.dateCloture = dateCloture;
         this.statut = statut;
         this.description = description;
+        this.technicienstatuts = technicienstatuts;
     }
 
-    public Dossier() {}
+    public Dossier() {
+    }
 
     public int getDossierId() {
         return dossierId;
@@ -100,5 +106,13 @@ public class Dossier {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTechnicienstatuts() {
+        return technicienstatuts;
+    }
+
+    public void setTechnicienstatuts(String technicienstatuts) {
+        this.technicienstatuts = technicienstatuts;
     }
 }

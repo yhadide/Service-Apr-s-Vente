@@ -9,5 +9,6 @@ public interface DossierService {
     Dossier getDossierById(int id);
     void saveDossier(Dossier dossier);
     void updateDossier(int id, Dossier updatedDossier);
+    void updateDossierByTechnicien(int DossierId, Dossier updatedDossier);
     void deleteDossier(int id);
 }

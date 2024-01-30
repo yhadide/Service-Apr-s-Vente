@@ -1,10 +1,9 @@
 package com.dev.sav.service.implementation;
 
 import com.dev.sav.dto.TechnicienDto;
-import com.dev.sav.dto.TechnicienDto;
+import com.dev.sav.model.*;
 import com.dev.sav.model.Technicien;
-import com.dev.sav.model.Role;
-import com.dev.sav.model.Technicien;
+import com.dev.sav.repository.DossierRepository;
 import com.dev.sav.repository.RoleRepository;
 import com.dev.sav.repository.TechnicienRepository;
 import com.dev.sav.service.TechnicienService;
@@ -20,13 +19,15 @@ import java.util.List;
 @Transactional
 public class TechnicienServiceImpl implements TechnicienService {
 
-    private TechnicienRepository technicienRepository;
+    private final TechnicienRepository technicienRepository;
+    private final DossierRepository dossierRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     @Autowired
-    public TechnicienServiceImpl(PasswordEncoder passwordEncoder, TechnicienRepository technicienRepository, RoleRepository roleRepository) {
+    public TechnicienServiceImpl(PasswordEncoder passwordEncoder, TechnicienRepository technicienRepository, DossierRepository dossierRepository, RoleRepository roleRepository) {
         this.passwordEncoder = passwordEncoder;
         this.technicienRepository = technicienRepository;
+        this.dossierRepository = dossierRepository;
         this.roleRepository = roleRepository;
     }
 
@@ -82,4 +83,5 @@ public class TechnicienServiceImpl implements TechnicienService {
     public long getTechnicienCount() {
         return technicienRepository.count();
     }
+
 }

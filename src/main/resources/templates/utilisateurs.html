@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -33,16 +33,25 @@
     </div>
 </nav>
 
-
 <div class="container">
     <div class="row mt-4">
-        <!-- Dashboard Section -->
+        <div class="col-md-4 offset-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Clients</h5>
+                    <p class="card-text">Nombre des Clients: <span id="totalClients"></span></p>
+                    <canvas id="clientsChart" width="200" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Articles</h5>
                     <p class="card-text">Total Des articles: <span id="totalArticles"></span></p>
-                    <!-- Add canvas for the Articles chart -->
                     <canvas id="articlesChart" width="200" height="100"></canvas>
                 </div>
             </div>
@@ -52,7 +61,6 @@
                 <div class="card-body">
                     <h5 class="card-title">Techniciens</h5>
                     <p class="card-text">Total des techniciens: <span id="totalTechniciens"></span></p>
-                    <!-- Add canvas for the Techniciens chart -->
                     <canvas id="techniciensChart" width="200" height="100"></canvas>
                 </div>
             </div>
@@ -62,16 +70,14 @@
                 <div class="card-body">
                     <h5 class="card-title">Dossiers</h5>
                     <p class="card-text">Total des dossiers: <span id="totalDossiers"></span></p>
-                    <!-- Add canvas for the Dossiers chart -->
                     <canvas id="dossiersChart" width="200" height="100"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Buttons Section -->
     <div class="row mt-4">
-        <div class="col-md-4">
+        <div class="col-md-4 ">
             <a class="btn btn-primary btn-sm" th:href="@{/articles}">Voir les articles</a>
         </div>
         <div class="col-md-4">
@@ -82,6 +88,8 @@
         </div>
     </div>
 </div>
+
+
 
 </body>
 
@@ -141,7 +149,7 @@
             }
         });
 
-// Fetch the count of dossiers dynamically
+        // Fetch the count of dossiers dynamically
         $.ajax({
             url: '/dossiers/dossiers-json',
             type: 'GET',
@@ -154,6 +162,22 @@
             },
             error: function (xhr, status, error) {
                 console.error('Error fetching dossiers:', xhr.status, xhr.statusText, error);
+            }
+        });
+
+        // Fetch the count of Clients dynamically
+        $.ajax({
+            url: '/client/clients-json',
+            type: 'GET',
+            dataType: 'json',
+            success: function (clients) {
+                // Update the total count in the span
+                $('#totalClients').text(clients.length);
+                // Create chart for Dossiers
+                createChart('clientsChart', [clients.length], ['clients'], 'rgba(255, 205, 86, 0.2)', 'rgb(131,255,86)');
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching clients:', xhr.status, xhr.statusText, error);
             }
         });
 

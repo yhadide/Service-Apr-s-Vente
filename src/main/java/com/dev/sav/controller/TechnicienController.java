@@ -1,6 +1,7 @@
 package com.dev.sav.controller;
 
 import com.dev.sav.dto.TechnicienDto;
+import com.dev.sav.model.Dossier;
 import com.dev.sav.model.Technicien;
 import com.dev.sav.service.TechnicienService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,4 @@ public class TechnicienController {
         technicienService.updateTechnicien(id, technicienDto);
         return "redirect:/techniciens/" + id;
     }
-
 }

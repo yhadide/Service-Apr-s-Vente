@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -16,12 +17,11 @@ import java.util.List;
 public class DossierController {
 
     private final DossierService dossierService;
-    private final TechnicienService technicienService;
+
 
     @Autowired
-    public DossierController(DossierService dossierService, TechnicienService technicienService) {
+    public DossierController(DossierService dossierService) {
         this.dossierService = dossierService;
-        this.technicienService = technicienService;
     }
 
     @GetMapping
@@ -35,6 +35,19 @@ public class DossierController {
     @ResponseBody
     public List<Dossier> getAllDossiersJson() {
         return dossierService.getAllDossiers();
+    }
+
+    @GetMapping("/search")
+    public String searchDossierById(@RequestParam("id") int dossierId, Model model) {
+        Dossier dossier = dossierService.getDossierById(dossierId);
+        if (dossier == null) {
+            model.addAttribute("dossierNotFound", true);
+        }
+        List<Dossier> filteredDossiers = new ArrayList<>();
+        filteredDossiers.add(dossier);
+        model.addAttribute("dossiers", filteredDossiers);
+
+        return "dossiers/dossier";
     }
 
     @GetMapping("/{id}")
@@ -72,7 +85,7 @@ public class DossierController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateDossier(@PathVariable int id, @ModelAttribute Dossier updatedDossier, Model model) {
+    public String updateDossier(@PathVariable int id, @ModelAttribute Dossier updatedDossier) {
         dossierService.updateDossier(id, updatedDossier);
         return "redirect:/dossiers";
     }
@@ -81,5 +94,11 @@ public class DossierController {
     public String deleteDossier(@PathVariable int id) {
         dossierService.deleteDossier(id);
         return "redirect:/dossiers/dossier";
+    }
+
+    @PostMapping("/update")
+    public String updateDossierByTechnician(@RequestParam("DossierId") int dossierId, @ModelAttribute Dossier updatedDossier) {
+        dossierService.updateDossierByTechnicien(dossierId, updatedDossier);
+        return "redirect:/techniciens/technicien/" + dossierId;
     }
 }

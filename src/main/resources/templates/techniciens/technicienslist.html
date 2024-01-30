@@ -15,7 +15,7 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/index}">Service Après Vente</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -40,6 +40,7 @@
             <th>Prénom</th>
             <th>Email</th>
             <th>Spécialité</th>
+            <th>Dossiers</th>
         </tr>
         </thead>
         <tbody>
@@ -48,6 +49,11 @@
             <td th:text="${technicien.prenom}"></td>
             <td th:text="${technicien.email}"></td>
             <td th:text="${technicien.specialite}"></td>
+            <td>
+                <ul>
+                    <li th:each="dossier : ${technicien.dossiers}" th:text="${dossier.dossierId}"></li>
+                </ul>
+            </td>
         </tr>
         </tbody>
     </table>

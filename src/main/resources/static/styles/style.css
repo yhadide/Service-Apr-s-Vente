@@ -109,3 +109,16 @@ body {
 .card-body {
     padding: 2rem;
 }
+.custom-input-group {
+    display: flex;
+    align-items: center;
+}
+
+.custom-input {
+    flex: 1;
+    margin-right: 5px; /* Adjust the margin as needed */
+}
+
+.custom-button {
+    margin-left: 5px; /* Adjust the margin as needed */
+}
