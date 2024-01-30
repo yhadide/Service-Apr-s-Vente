@@ -74,4 +74,10 @@ public class TechnicienController {
         technicienService.updateTechnicien(id, technicienDto);
         return "redirect:/techniciens/" + id;
     }
+
+    @PostMapping("/toggle-status")
+    public String toggleTechnicienStatus(@RequestParam int id) {
+        technicienService.toggleTechnicienStatus(id);
+        return "redirect:/techniciens/technicienslist";
+    }
 }

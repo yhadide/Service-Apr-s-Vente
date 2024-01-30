@@ -13,6 +13,6 @@ public interface TechnicienService {
     void updateTechnicien(int technicienId, TechnicienDto technicienDto);
     void deleteTechnicien(int id);
     long getTechnicienCount();
-
+    void toggleTechnicienStatus(int technicienId);
 
 }

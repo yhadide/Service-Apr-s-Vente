@@ -41,6 +41,7 @@
             <th>Email</th>
             <th>Spécialité</th>
             <th>Dossiers</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -53,6 +54,12 @@
                 <ul>
                     <li th:each="dossier : ${technicien.dossiers}" th:text="${dossier.dossierId}"></li>
                 </ul>
+            </td>
+            <td>
+                <form th:action="@{/techniciens/toggle-status}" method="post">
+                    <input type="hidden" name="id" th:value="${technicien.idTechnicien}" />
+                    <button type="submit" class="btn btn-primary" th:text="${technicien.isActive ? 'Restrict Access' : 'Accorder acces'}"></button>
+                </form>
             </td>
         </tr>
         </tbody>

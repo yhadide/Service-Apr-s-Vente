@@ -37,7 +37,7 @@ public class SpringSecurity {
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/dossiers/update/**").permitAll()
                                 .requestMatchers("/client/clients-json").permitAll()
-                                .requestMatchers("/techniciens/techniciens-json").permitAll()
+                                .requestMatchers("/techniciens/techniciens-json", "/techniciens/toggle-status" ).permitAll()
                                 .requestMatchers("/techniciens/technicienslist").permitAll()
                                 .requestMatchers("/techniciens/**").hasRole("TECHNICIEN")
                                 .requestMatchers("/client/**").hasRole("CLIENT")

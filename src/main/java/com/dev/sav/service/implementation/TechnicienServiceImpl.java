@@ -84,4 +84,12 @@ public class TechnicienServiceImpl implements TechnicienService {
         return technicienRepository.count();
     }
 
+    @Override
+    public void toggleTechnicienStatus(int technicienId) {
+        Technicien technicien = technicienRepository.findById(technicienId).orElse(null);
+        boolean currentStatus = technicien.isActive();
+        technicien.setActive(!currentStatus);
+        technicienRepository.save(technicien);
+    }
+
 }
