@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @Controller
 @RequestMapping("/articles")
 public class ArticleController {

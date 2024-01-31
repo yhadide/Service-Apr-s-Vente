@@ -20,6 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SpringSecurity {
 
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -43,7 +44,6 @@ public class SpringSecurity {
                                 .requestMatchers("/client/**").hasRole("CLIENT")
                                 .requestMatchers("/appels/**", "/articles/**").permitAll()
                                 .requestMatchers("/dossiers/**").hasRole("ADMIN")
-//                                .requestMatchers("/techniciens").hasRole("ADMIN")
                                 .requestMatchers("/utilisateurs").hasRole("ADMIN")
                                 .requestMatchers("/js/**", "/styles/**").permitAll()
                 ).formLogin(form ->
